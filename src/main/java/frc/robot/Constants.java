@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -29,6 +30,17 @@ public final class Constants {
     public static final int kFrontRightTurningCanID = 4;
     public static final int kRearRightTurningCanID = 6;
     public static final int kRearLeftTurningCanID = 8;
+
+    // public static final int[] kLeftDriveEncoderPorts = {0, 1};
+    // public static final int[] kRightEncoderPorts = {2, 3};
+    // public static final boolean kLeftEncoderReversed = false;
+    // public static final boolean kRightEncoderReversed = true;
+
+    // public static final int kEncoderCPR = 1024;
+    // public static final double kWheelDiameterMeters = Units.inchesToMeters(6);
+    // public static final double kEncoderDistancePerPulse =
+    //     // Assumes the encoders are directly mounted on the wheel shafts
+    //     (kWheelDiameterMeters * Math.PI) / kEncoderCPR;
   }
   
   //CanIDs that are negative need to be adjusted once bot is wired
@@ -43,11 +55,14 @@ public final class Constants {
   }
 
   public static class ShooterConstants{
+    //we lowk need dose encodors plsplspls stevenplspls
     public static final int kShooterLoaderMotorCanID = -1;
     public static final int kShooterRearMotorCanID = -1;
     public static final int kShooterFrontLowerMotrCanID = -1;
     public static final int kShooterFrontUpperMotorCanID = -1;
-  }
+    public static final double kP = 1;
+
+    }
 
   public static class ClimbConstants{
     //Only God :duck:ing knows
