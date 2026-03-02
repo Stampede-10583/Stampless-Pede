@@ -1,4 +1,4 @@
-import org.gradle.nativeplatform.platform.OperatingSystem
+import org.gradle.internal.os.OperatingSystem
 
 pluginManagement {
     repositories {
@@ -6,9 +6,7 @@ pluginManagement {
         gradlePluginPortal()
         String frcYear = '2026'
         File frcHome
-
-        boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win")
-        if (isWindows) {
+        if (OperatingSystem.current().isWindows()) {
             String publicFolder = System.getenv('PUBLIC')
             if (publicFolder == null) {
                 publicFolder = "C:\\Users\\Public"
@@ -20,7 +18,6 @@ pluginManagement {
             def homeRoot = new File(userFolder, "wpilib")
             frcHome = new File(homeRoot, frcYear)
         }
-
         def frcHomeMaven = new File(frcHome, 'maven')
         maven {
             name = 'frcHome'
