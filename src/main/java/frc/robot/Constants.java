@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+// ear
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -33,7 +33,7 @@ public final class Constants {
   
   //CanIDs that are negative need to be adjusted once bot is wired
   public static class HopperConstants{
-    public static final int kFrontRollerMotorCanID = -1;
+    public static final int kFrontRollerMotorCanID = -0;
     public static final int kRearRollerMotorCanID = -1;
   }
   
