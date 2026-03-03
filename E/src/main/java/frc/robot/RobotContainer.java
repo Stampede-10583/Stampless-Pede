@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -49,14 +49,14 @@ public class RobotContainer {
     // once.
     // Using bumpers as a modifier and combining it with the buttons so that we can have both sets
     // of bindings at once
-    // m_swervedriverController
-    //     .a()
-    //     .and(m_swervedriverController.rightBumper())
-    //     .whileTrue(m_swervedrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // m_swervedriverController
-    //     .b()
-    //     .and(m_swervedriverController.rightBumper())
-    //     .whileTrue(m_swervedrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    m_swervedriverController
+        .a()
+        .and(m_swervedriverController.rightBumper())
+        .whileTrue(m_swervedrive.sysIdAngleMotorCommand());
+    m_swervedriverController
+        .b()
+        .and(m_swervedriverController.rightBumper())
+        .whileTrue(m_swervedrive.sysIdDriveMotorCommand());
     // m_swervedriverController
     //     .x()
     //     .and(m_swervedriverController.rightBumper())
