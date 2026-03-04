@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
+
+
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -50,13 +53,17 @@ public final class Constants {
   public static class IntakeConstants{
     public static final int kDeployMotorCanID = 14;
     public static final int kIntakeMotorCanID = 15;
+    public static final double kArmDegreesPerRotation = 360.0; // Assuming 1 rotation equals 360 degrees, adjust if necessary
+    public static final double kIntakeSpeed = 0.5; // Adjust as necessary 
+    public static final double kDeployDutyCycle = 0.5; // Adjust as necessary
+    public static final double kRetractDutyCycle = -0.5; // Adjust as necessary
   }
 
   public static class ShooterConstants{
     //we lowk need dose encodors plsplspls stevenplspls
     public static final int kShooterLoaderMotorCanID = 13;
     public static final int kShooterRearMotorCanID = 10;
-    public static final int kShooterFrontLowerMotrCanID = 12;
+    public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
 
