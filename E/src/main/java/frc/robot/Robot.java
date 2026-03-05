@@ -94,11 +94,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    DoubleLogEntry myDoubleLog = new DoubleLogEntry(DataLogManager.getLog(), "/my/encoders");
-    myDoubleLog.append(encoder0.get());
-    myDoubleLog.append(encoder1.get());
-    myDoubleLog.append(encoder2.get());
-    myDoubleLog.append(encoder3.get());
+    DoubleLogEntry encoderLogger0 = new DoubleLogEntry(DataLogManager.getLog(), "/my/encoders/encoder0");
+    DoubleLogEntry encoderLogger1 = new DoubleLogEntry(DataLogManager.getLog(), "/my/encoders/encoder1");
+    DoubleLogEntry encoderLogger2 = new DoubleLogEntry(DataLogManager.getLog(), "/my/encoders/encoder2");
+    DoubleLogEntry encoderLogger3 = new DoubleLogEntry(DataLogManager.getLog(), "/my/encoders/encoder3");
+    encoderLogger0.append(encoder0.get());
+    encoderLogger1.append(encoder1.get());
+    encoderLogger2.append(encoder2.get());
+    encoderLogger3.append(encoder3.get());
   }
 
   @Override

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import static edu.wpi.first.units.Units.*;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
@@ -19,7 +20,7 @@ public class IntakeArm extends SubsystemBase
     }
     //to do: switch to a closed loop control of the deploy motor using the angle measurement as feedback, and add a command to move to a specific angle
     
-    final TalonFX m_deploymotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
+    final TalonFX m_deploymotor = new TalonFX(IntakeConstants.kDeployMotorCanID, CANBus.roboRIO());
     final SparkMax m_intakemotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
     
     public final MutAngle mut_angle = Degrees.mutable(0);
