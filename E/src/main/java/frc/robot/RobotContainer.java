@@ -51,12 +51,11 @@ public class RobotContainer {
     // of bindings at once
     m_swervedriverController
         .a()
-        .and(m_swervedriverController.rightBumper())
         .whileTrue(m_swervedrive.sysIdAngleMotorCommand());
     m_swervedriverController
         .b()
-        .and(m_swervedriverController.rightBumper())
         .whileTrue(m_swervedrive.sysIdDriveMotorCommand());
+
     // m_swervedriverController
     //     .x()
     //     .and(m_swervedriverController.rightBumper())
