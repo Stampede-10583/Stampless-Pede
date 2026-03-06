@@ -28,7 +28,7 @@ public class RobotContainer {
 //   private final Shooter m_shooter = new Shooter();
 
   // The driver's controller
-  CommandXboxController m_swervedriverController =
+  CommandXboxController m_DriverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /**
@@ -49,14 +49,10 @@ public class RobotContainer {
     // once.
     // Using bumpers as a modifier and combining it with the buttons so that we can have both sets
     // of bindings at once
-    m_swervedriverController
-        .a()
-        .whileTrue(m_swervedrive.sysIdAngleMotorCommand());
-    m_swervedriverController
-        .b()
-        .whileTrue(m_swervedrive.sysIdDriveMotorCommand());
+    m_DriverController.a().whileTrue(m_swervedrive.sysIdAngleMotorCommand());
+    m_DriverController.b().whileTrue(m_swervedrive.sysIdDriveMotorCommand());
 
-    // m_swervedriverController
+    // m_DriverController
     //     .x()
     //     .and(m_swervedriverController.rightBumper())
     //     .whileTrue(m_swervedrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
