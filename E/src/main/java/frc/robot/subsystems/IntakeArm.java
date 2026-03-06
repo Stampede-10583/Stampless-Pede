@@ -20,8 +20,8 @@ public class IntakeArm extends SubsystemBase
     }
     //to do: switch to a closed loop control of the deploy motor using the angle measurement as feedback, and add a command to move to a specific angle
     
-    final TalonFX m_deploymotor = new TalonFX(IntakeConstants.kDeployMotorCanID, CANBus.roboRIO());
-    final SparkMax m_intakemotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
+    final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID, CANBus.roboRIO());
+    final SparkMax m_IntakeMotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
     
     public final MutAngle mut_angle = Degrees.mutable(0);
     private final DutyCycleOut m_DeployDutyCycle = new DutyCycleOut(IntakeConstants.kDeployDutyCycle);
@@ -30,29 +30,29 @@ public class IntakeArm extends SubsystemBase
     public Command deployIntake() {
 
         return run(()->{
-            m_deploymotor.setControl(m_DeployDutyCycle);
+            m_DeployMotor.setControl(m_DeployDutyCycle);
         });
 
     }
     public Command retractIntake() {
 
         return run(()->{
-            m_deploymotor.setControl(m_RetractDutyCycle);
+            m_DeployMotor.setControl(m_RetractDutyCycle);
         });
 
     }
     public Command runIntake() {
         return run(() -> {
-            m_intakemotor.set(IntakeConstants.kIntakeSpeed);
+            m_IntakeMotor.set(IntakeConstants.kIntakeSpeed);
         });
     }
     public Command stopIntake() {
         return run(() -> {
-            m_intakemotor.set(0);
+            m_IntakeMotor.set(0);
         });
     }
     public Angle getAngle() {
-        double rawAngle = m_deploymotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
+        double rawAngle = m_DeployMotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
         mut_angle.mut_replace(rawAngle, Degrees);
         return mut_angle;
     }

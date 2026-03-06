@@ -20,6 +20,23 @@ public class ShooterSubsystem extends SubsystemBase {
         // Initialize your shooter motors and any necessary components here
     }
 
+
+    public void runLoaderMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
+    
+    public void runRearMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
+
+    public void runFrontUpperMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
+
+    public void runFrontLowerMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
+
     public Command runShooter() {
         return run(() -> {
             // Code to set shooter motors to the desired speed
