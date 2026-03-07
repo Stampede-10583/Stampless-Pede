@@ -29,7 +29,7 @@
     
 //     public Command deployIntake() {
 
-//         return run(()->{
+//         return runOnce(()->{
 //             m_DeployMotor.setControl(m_DeployDutyCycle);
 //         })
 //         .finallyDo(()->{
@@ -39,7 +39,7 @@
 //     }
 //     public Command retractIntake() {
 
-//         return run(()->{
+//         return runOnce(()->{
 //             m_DeployMotor.setControl(m_RetractDutyCycle);
 //         })
 //         .finallyDo(()->{
@@ -48,12 +48,12 @@
 
 //     }
 //     public Command runIntake() {
-//         return run(() -> {
+//         return runOnce(() -> {
 //             m_IntakeMotor.set(IntakeConstants.kIntakeSpeed);
 //         });
 //     }
 //     public Command stopIntake() {
-//         return run(() -> {
+//         return runOnce(() -> {
 //             m_IntakeMotor.stopMotor();;
 //         });
 //     }

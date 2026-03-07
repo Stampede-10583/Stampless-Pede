@@ -65,6 +65,8 @@ public final class Constants {
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
 
+    public static final int kLoaderSpeed = 3500;
+
     }
 
   public static class ClimbConstants{

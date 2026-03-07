@@ -1,51 +1,69 @@
-// package frc.robot.subsystems;
+package frc.robot.subsystems;
 
-// import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants.ShooterConstants;
-// import com.revrobotics.spark.SparkMax;
-// import com.revrobotics.spark.SparkLowLevel.MotorType;
-// import com.ctre.phoenix6.CANBus;
-// import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 
-// public class ShooterSubsystem extends SubsystemBase {
-//     //to do: everything
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.hardware.TalonFX;
 
-//     // Define your shooter motors and any necessary variables here
-//     final SparkMax m_LoaderMotor = new SparkMax(ShooterConstants.kShooterLoaderMotorCanID, MotorType.kBrushless);
-//     final TalonFX m_RearMotor = new TalonFX(ShooterConstants.kShooterRearMotorCanID);
-//     final TalonFX m_FrontUpperMotor = new TalonFX(ShooterConstants.kShooterFrontUpperMotorCanID);
-//     final TalonFX m_FrontLowerMotor = new TalonFX(ShooterConstants.kShooterFrontLowerMotorCanID);
-//     public ShooterSubsystem() {
-//         // Initialize your shooter motors and any necessary components here
-//     }
+public class ShooterSubsystem extends SubsystemBase {
+    //to do: everything
+
+    // Define your shooter motors and any necessary variables here
+    private final SparkMax m_LoaderMotor = new SparkMax(ShooterConstants.kShooterLoaderMotorCanID, MotorType.kBrushless);
+    private final SparkClosedLoopController pidControllerLoader;
+
+    final TalonFX m_RearMotor = new TalonFX(ShooterConstants.kShooterRearMotorCanID);
+    final TalonFX m_FrontUpperMotor = new TalonFX(ShooterConstants.kShooterFrontUpperMotorCanID);
+    final TalonFX m_FrontLowerMotor = new TalonFX(ShooterConstants.kShooterFrontLowerMotorCanID);
+    public ShooterSubsystem() {
+        // Initialize your shooter motors and any necessary components here
+        pidControllerLoader = m_LoaderMotor.getClosedLoopController();
+    }
 
 
-//     public void runLoaderMotor(double speed) {
-//         m_LoaderMotor.set(speed);
-//     }
     
-//     public void runRearMotor(double speed) {
-//         m_LoaderMotor.set(speed);
-//     }
+    public Command runLoaderMotor(){
+        return runOnce(() -> {
+            pidControllerLoader.setReference(ShooterConstants.kLoaderSpeed, ControlType.kVelocity);
+            
+            //System.out.println(this.getEncoderCount());
+    });
+    }
 
-//     public void runFrontUpperMotor(double speed) {
-//         m_LoaderMotor.set(speed);
-//     }
+    public Command stop(){
+        return runOnce(() ->{
+            m_LoaderMotor.stopMotor();
 
-//     public void runFrontLowerMotor(double speed) {
-//         m_LoaderMotor.set(speed);
-//     }
+        });
+    }
 
-//     public Command runShooter() {
-//         return run(() -> {
-//             // Code to set shooter motors to the desired speed
+    public void runRearMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
 
-//         });
-//     }
+    public void runFrontUpperMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
 
-//  //   public static void 
+    public void runFrontLowerMotor(double speed) {
+        m_LoaderMotor.set(speed);
+    }
 
-//     // Define methods to control the shooter, such as setting speed, stopping, etc.
+    public Command runShooter() {
+        return run(() -> {
+            // Code to set shooter motors to the desired speed
+
+        });
+    }
+
+ //   public static void 
+
+    // Define methods to control the shooter, such as setting speed, stopping, etc.
     
-// }
+}

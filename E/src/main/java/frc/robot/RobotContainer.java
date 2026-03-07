@@ -5,9 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-
+//import frc.robot.subsystems.MotorTest;
 import java.io.File;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.Filesystem;
 // import frc.robot.subsystems.Shooter;
@@ -25,6 +28,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final SwerveSubsystem m_swervedrive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
+  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+  //private final MotorTest m_motorTest = new MotorTest();
 
 
   //NamedCommand.registerCommand("shooterShoot", m_shooter.shoot());
@@ -34,6 +39,18 @@ public class RobotContainer {
   // The driver's controller
   CommandXboxController m_DriverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+
+      public RobotContainer(){
+        NamedCommands.registerCommand("shooterShoot", m_shooter.runLoaderMotor());
+        NamedCommands.registerCommand("shooterStop", m_shooter.stop());
+
+        // NamedCommands.registerCommand("testStart", m_motorTest.runTestMotor());
+        // NamedCommands.registerCommand("testStop", m_motorTest.stopTestMotor());
+
+        configureBindings();
+
+      }
 
   /**
    * Use this method to define bindings between conditions and commands. These are useful for
@@ -55,6 +72,16 @@ public class RobotContainer {
     // of bindings at once
     m_DriverController.a().whileTrue(m_swervedrive.sysIdAngleMotorCommand());
     m_DriverController.b().whileTrue(m_swervedrive.sysIdDriveMotorCommand());
+
+    // m_DriverController.povUp()
+    //    .onTrue(m_motorTest.runTestMotor());
+    //  m_DriverController.povUp()
+    //    .onFalse(m_motorTest.stopTestMotor());
+
+    m_DriverController.rightTrigger()
+       .onTrue(m_shooter.runLoaderMotor());
+     m_DriverController.leftTrigger().onTrue(m_shooter.stop());
+
 
     // m_DriverController
     //     .x()
