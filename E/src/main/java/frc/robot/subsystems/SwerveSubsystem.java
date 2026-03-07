@@ -10,7 +10,7 @@ e3 - .530
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Meter;
-
+import edu.wpi.first.wpilibj.DataLogManager;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.commands.PathfindingCommand;
@@ -30,6 +30,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
@@ -348,11 +351,14 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command sysIdDriveMotorCommand()
   {
+    DataLogManager.log("Drive Tuning Started");
+    System.out.println("Drive Tuning Started");
+
     return SwerveDriveTest.generateSysIdCommand(
         SwerveDriveTest.setDriveSysIdRoutine(
             new Config(),
             this, swerveDrive, 12, true),
-        3.0, 5.0, 3.0);
+        1.0, 10.0, 6.0);
   }
 
   /**
@@ -362,11 +368,14 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command sysIdAngleMotorCommand()
   {
+    DataLogManager.log("Angle Tuning Started");
+    System.out.println("Angle Tuning Started");
+
     return SwerveDriveTest.generateSysIdCommand(
         SwerveDriveTest.setAngleSysIdRoutine(
             new Config(),
             this, swerveDrive),
-        3.0, 5.0, 3.0);
+        1.0, 10.0, 6.0);
   }
 
   /**

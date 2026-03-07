@@ -25,6 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final SwerveSubsystem m_swervedrive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
+
+
+  //NamedCommand.registerCommand("shooterShoot", m_shooter.shoot());
+  //NamedCommands.registerCommand("shooterShoot", m_shooter.shoot());
 //   private final Shooter m_shooter = new Shooter();
 
   // The driver's controller
