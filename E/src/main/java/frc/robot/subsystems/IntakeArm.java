@@ -20,8 +20,8 @@ public class IntakeArm extends SubsystemBase
     }
     //to do: switch to a closed loop control of the deploy motor using the angle measurement as feedback, and add a command to move to a specific angle
     
-    final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
-    final SparkMax m_IntakeMotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
+    //private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
+    private final SparkMax m_IntakeMotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
     
     public final MutAngle mut_angle = Degrees.mutable(0);
     private final DutyCycleOut m_DeployDutyCycle = new DutyCycleOut(IntakeConstants.kDeployDutyCycle);
@@ -30,20 +30,13 @@ public class IntakeArm extends SubsystemBase
     public Command deployIntake() {
 
         return runOnce(()->{
-            m_DeployMotor.setControl(m_DeployDutyCycle);
-        })
-        .finallyDo(()->{
-            m_DeployMotor.stopMotor();
+           // m_DeployMotor.setControl(m_DeployDutyCycle);
         });
-
     }
     public Command retractIntake() {
 
         return runOnce(()->{
-            m_DeployMotor.setControl(m_RetractDutyCycle);
-        })
-        .finallyDo(()->{
-            m_DeployMotor.stopMotor();
+            //m_DeployMotor.setControl(m_RetractDutyCycle);
         });
 
     }
@@ -54,23 +47,24 @@ public class IntakeArm extends SubsystemBase
     }
     public Command stopIntake() {
         return runOnce(() -> {
-            m_IntakeMotor.stopMotor();;
+            m_IntakeMotor.stopMotor();
+            //m_DeployMotor.stopMotor();
         });
     }
-    public Angle getAngle() {
-        double rawAngle = m_DeployMotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
-        mut_angle.mut_replace(rawAngle, Degrees);
-        return mut_angle;
-    }
+    //public Angle getAngle() {
+        //double rawAngle = m_DeployMotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
+        //mut_angle.mut_replace(rawAngle, Degrees);
+        //return mut_angle;
+   // }
     @Override
     public void periodic() {
-        this.getAngle();
+        //this.getAngle();
     // This method will be called once per scheduler run
     }
 
     @Override
     public void simulationPeriodic() {
-        this.getAngle(); // Update the angle measurement in simulation
+        //this.getAngle(); // Update the angle measurement in simulation
     // This method will be called once per scheduler run during simulation
     }
 }

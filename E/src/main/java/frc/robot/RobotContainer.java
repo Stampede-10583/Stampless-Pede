@@ -76,12 +76,12 @@ public class RobotContainer {
     Command driveFieldOrientedAnglularVelocity = m_swervedrive.driveFieldOriented(driveAngularVelocity);
       m_swervedrive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
 
-    m_DriverController.leftBumper().onTrue(m_intake.runIntake()).onFalse(m_intake.stopIntake());
-    m_DriverController.y().onTrue(m_shooter.runLoaderMotor());
+    m_DriverController.leftBumper().onTrue(m_intake.retractIntake());
+    m_DriverController.y().onTrue(m_shooter.stop());
     m_DriverController.x().onTrue(m_shooter.runShooter());
-    m_DriverController.rightBumper().onTrue(m_shooter.stop());
-    m_DriverController.leftStick().onTrue(m_swervedrive.centerModulesCommand());    
-    m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand());
+    m_DriverController.rightBumper().onTrue(m_intake.stopIntake());
+    m_DriverController.leftStick().onTrue(m_swervedrive.centerModulesCommand()).onFalse(driveFieldOrientedAnglularVelocity);    
+    m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand()).onFalse(driveFieldOrientedAnglularVelocity);
  }
 
   /**

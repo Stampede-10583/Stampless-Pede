@@ -96,22 +96,14 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
   }
   // example aim at target command
-  public Command aimAtTarget(Cameras camera)
+  public Command aimAtTarget(double yaw)
   {
-
-    return run(() -> {
-      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-      if (resultO.isPresent())
-      {
-        var result = resultO.get();
-        if (result.hasTargets())
-        {
+    return run(() -> { 
           drive(getTargetSpeeds(0,
                                 0,
-                                Rotation2d.fromDegrees(result.getBestTarget()
-                                                             .getYaw()))); // Not sure if this will work, more math may be required.
-        }
-      }
+                                Rotation2d.fromDegrees(yaw))); // Not sure if this will work, more math may be required.
+        
+      
     });
   }
   @Override
@@ -348,6 +340,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void zeroGyro()
   {
     swerveDrive.zeroGyro();
+    resetOdometry(getPose());
   }
 
   /**
