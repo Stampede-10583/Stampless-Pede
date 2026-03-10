@@ -6,39 +6,42 @@ import edu.wpi.first.wpilibj2.command.Command;
 import static edu.wpi.first.units.Units.*;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class IntakeArm extends SubsystemBase
  {
-    public IntakeArm() {
-        // Initialize your intake arm components here
-    }
-    //to do: switch to a closed loop control of the deploy motor using the angle measurement as feedback, and add a command to move to a specific angle
-    
-    //private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
+    private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
     private final SparkMax m_IntakeMotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
     
     public final MutAngle mut_angle = Degrees.mutable(0);
     private final DutyCycleOut m_DeployDutyCycle = new DutyCycleOut(IntakeConstants.kDeployDutyCycle);
     private final DutyCycleOut m_RetractDutyCycle = new DutyCycleOut(IntakeConstants.kRetractDutyCycle);
     
+    public IntakeArm() {
+        // Initialize your intake arm components here
+        m_DeployMotor.setPosition(0);
+    }
+    //to do: switch to a closed loop control of the deploy motor using the angle measurement as feedback, and add a command to move to a specific angle
+    
+    
     public Command deployIntake() {
-
         return runOnce(()->{
-           // m_DeployMotor.setControl(m_DeployDutyCycle);
+           m_DeployMotor.setControl(m_DeployDutyCycle);
         });
     }
     public Command retractIntake() {
-
         return runOnce(()->{
-            //m_DeployMotor.setControl(m_RetractDutyCycle);
+            m_DeployMotor.setControl(m_RetractDutyCycle);
         });
-
+    }
+    public Command stopDeployMotor() {
+        return runOnce(()->{
+            m_DeployMotor.stopMotor();
+        });
     }
     public Command runIntake() {
         return runOnce(() -> {
@@ -48,17 +51,16 @@ public class IntakeArm extends SubsystemBase
     public Command stopIntake() {
         return runOnce(() -> {
             m_IntakeMotor.stopMotor();
-            //m_DeployMotor.stopMotor();
         });
     }
-    //public Angle getAngle() {
-        //double rawAngle = m_DeployMotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
-        //mut_angle.mut_replace(rawAngle, Degrees);
-        //return mut_angle;
-   // }
+    public double getAngle() {
+        double rawAngle = m_DeployMotor.getPosition().getValueAsDouble() * IntakeConstants.kArmDegreesPerRotation;
+        return rawAngle;
+    }
     @Override
     public void periodic() {
-        //this.getAngle();
+        getAngle();
+        SmartDashboard.putNumber("Intake Angle", getAngle());
     // This method will be called once per scheduler run
     }
 

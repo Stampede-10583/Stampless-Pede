@@ -65,9 +65,10 @@ public final class Constants {
     public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
-
+    
     public static final double kLoaderDutyCycle = 0.4; // Adjust as necessary
-
+    public static final double kFrontMotorsDutyCycle = 0.4; // Adjust as necessary
+    public static final double kRearMotorDutyCycle = 0.4; // Adjust as necessary
     }
 
   public static class ClimbConstants{
