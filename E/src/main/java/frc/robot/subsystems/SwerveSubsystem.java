@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import swervelib.SwerveController;
@@ -51,6 +52,9 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @param directory Directory of swerve drive config files.
    */
+
+  PhotonCamera camera = new PhotonCamera("camera1");
+
    public SwerveSubsystem(File directory)
   { 
     boolean blueAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue;
@@ -96,12 +100,28 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
   }
   // example aim at target command
-  public Command aimAtTarget(double yaw)
+  public Command aimAtTarget()
   {
-    return run(() -> { 
+    return run(() -> {
+        double targetYaw = 0.0;
+        var results = camera.getAllUnreadResults();
+        if (!results.isEmpty()) {
+          // Camera processed a new frame since last
+          // Get the last one in the list.
+          var result = results.get(results.size() - 1);
+          if (result.hasTargets()) {
+              // At least one AprilTag was seen by the camera
+              for (var target : result.getTargets()) {
+                  if (target.getFiducialId() == -0) {// need to replace with tag we are looking for
+                      // Found Tag 0, record its information
+                      targetYaw = target.getYaw();
+                  }
+              }
+          }
+        }
           drive(getTargetSpeeds(0,
                                 0,
-                                Rotation2d.fromDegrees(yaw))); // Not sure if this will work, more math may be required.
+                                Rotation2d.fromDegrees(targetYaw))); // Not sure if this will work, more math may be required.
         
       
     });
