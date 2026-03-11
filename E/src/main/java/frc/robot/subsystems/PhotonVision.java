@@ -14,6 +14,7 @@ import org.photonvision.PhotonPoseEstimator.*;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -23,10 +24,7 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
-import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.PhotonUtils;
 
 //Constants and Extras
 import frc.robot.Constants.VisionConstants;
@@ -56,23 +54,33 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.MutAngle;
 
 public class PhotonVision extends SubsystemBase {
-    
-
-
 
     //Create the camera
     private final PhotonCamera camera = new PhotonCamera(VisionConstants.kCameraName);
+
+    //Choose the field layout
+    AprilTagFieldLayout fieldLayout = GameConstants.kAndymarkLayout;
     
+    //Variable for Std. Dev
     private Matrix<N3, N1> curStdDevs;
 
     //Initialize vision estimation variable
     Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
-    //Initialize the vision estimation variable
-    Optional<EstimatedRobotPose> visionEst = Optional.empty();
+    //Initialize the robot pose estimator
+    private PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(fieldLayout, VisionConstants.kRobotToCam);
 
+    //Initialize variables for robot pose drivetrain integration
     public Pose2d robotPose;
     public double poseTimestamp;
+
+    //Initialize the distance calculation variables
+    public double distFromAprilTagInMeters;
+    public Pose2d targetPose;
+    private Optional<Pose3d> targetPose3d;
+
+    //Target we want to get the distance to, change this number when we find out
+    int TagID = 0;
 
 
     //Get the robot's pose on the field and distance data
@@ -84,42 +92,64 @@ public class PhotonVision extends SubsystemBase {
 
             //Check if the latest result has April Tags
             if (!results.isEmpty()) {
-                PhotonPipelineResult result = results.get(results.size() - 1); //Takes the last item in the results list, i.e. last detected result
-
-                boolean HasTargets = result.hasTargets();
-                
-                //Only if there are targets
-                // if (HasTargets) {
-
-                //     visionEst = photonEstimator.estimateCoprocMultiTagPose(result);
-                //     if (visionEst.isEmpty()) {
-                //         visionEst = photonEstimator.estimateLowestAmbiguityPose(result);
-                //     }
-                //     for (var change : camera.getAllUnreadResults()) {
-                //         visionEst = photonEstimator.update(change);
-                //         updateEstimationStdDevs(visionEst, change.getTargets());
+                for (PhotonPipelineResult result : results) {
+                    //Only if results have targets
+                    if (result.hasTargets()) {
                         
-                //         visionEst.ifPresent(
-                //             est -> {
-                //                 // Change our trust in the measurement based on the tags we can see
-                //                 estStdDevs = getEstimationStdDevs();
-                //                 robotPose = est.estimatedPose.toPose2d();
-                //                 poseTimestamp = est.timestampSeconds;
+                        //Make vision estimate use multiple tags
+                        visionEst = photonEstimator.estimateCoprocMultiTagPose(result);
+                        
+                        //Create a fallback if there aren't multiple tags
+                        if (visionEst.isEmpty()) {
+                            visionEst = photonEstimator.estimateLowestAmbiguityPose(result);
+                        }
+
+                        updateEstimationStdDevs(visionEst, result.getTargets());
+                        
+                        visionEst.ifPresent(
+                             est -> {
+                                 // Change our trust in the measurement based on the tags we can see
+                                 var estStdDevs = getEstimationStdDevs();
+                                 robotPose = est.estimatedPose.toPose2d();
+                                 poseTimestamp = est.timestampSeconds;
+
+                             }
+                        );
+                        
+                        var targets = result.getTargets();
+
+                        for (var target : targets) {
+                            if (target.getFiducialId() == TagID) {
+                                targetPose3d = fieldLayout.getTagPose(target.getFiducialId());
                                 
-                                
-                //             });
-                //      }
+                                //Extract the Pose2d out of the Optional
+                                targetPose3d.ifPresent(
+                                    targ -> {
+                                        
+                                        //Turn the 3d pose into a 2d pose
+                                        targetPose = targ.toPose2d();
+
+                                    }
+                                );
+
+                                distFromAprilTagInMeters = PhotonUtils.getDistanceToPose(robotPose, targetPose);
+                            }
+                        }
+
+                    }
+
+                        
+
+
                     
-                    
-                // }
+                }
                 
-
-            }
-
-    });
+                          
+            }    
+        });
 
     }
-    
+
     @Override
     public void periodic() {
 
