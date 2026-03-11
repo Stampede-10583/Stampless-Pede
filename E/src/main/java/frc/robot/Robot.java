@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DataLogManager;
 
 /**
@@ -66,7 +67,9 @@ public class Robot extends TimedRobot {
   @Override 
   public void robotInit() 
   {
-    CameraServer.startAutomaticCapture();
+    UsbCamera drivercam = CameraServer.startAutomaticCapture();
+    drivercam.setResolution(50,50);
+    drivercam.setFPS(30);
   }
   @Override
   public void teleopInit() {

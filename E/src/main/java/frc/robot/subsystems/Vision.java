@@ -45,6 +45,8 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Vision extends SubsystemBase {
 
@@ -71,12 +73,16 @@ public class Vision extends SubsystemBase {
     public double distFromAprilTagInMeters;
     public Pose2d tagPose;
     private Optional<Pose3d> tagPose3d;
+    private int tagID =0;
 
+    // public Vision() {
+    //     int tagID = ;
+    // }
+            
     // Initialize the target yaw variable
     double targetYaw = 0.0;
-
     // Target we want to get the distance to, change this number when we find out
-    int tagID = 0;
+    
 
     // Get the robot's pose on the field and distance data
     public Command getRobotFieldData() {
