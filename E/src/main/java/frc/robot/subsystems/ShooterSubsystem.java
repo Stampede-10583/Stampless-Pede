@@ -1,13 +1,17 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import java.lang.module.ModuleReader;
+
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
@@ -16,6 +20,18 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+class DataEntry {
+    TalonFX motor;
+    String name;
+    double rpm;
+    
+    public DataEntry(TalonFX motor, String name, double rpm) {
+        this.motor = motor;
+        this.name = name;
+        this.rpm = rpm;
+    }
+
+}
 public class ShooterSubsystem extends SubsystemBase {
     //to do: everything
 
@@ -25,11 +41,13 @@ public class ShooterSubsystem extends SubsystemBase {
     final TalonFX m_RearMotor = new TalonFX(ShooterConstants.kShooterRearMotorCanID);
     final TalonFX m_FrontUpperMotor = new TalonFX(ShooterConstants.kShooterFrontUpperMotorCanID);
     final TalonFX m_FrontLowerMotor = new TalonFX(ShooterConstants.kShooterFrontLowerMotorCanID);
-    private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
+    final DataEntry[] talons = new DataEntry[3];
     public ShooterSubsystem() {
         // Initialize your shooter motors and any necessary components here
         var currentConfigs = new MotorOutputConfigs();
-
+        talons[0] = new DataEntry(m_RearMotor, "Rear Talon",0);
+        talons[1] = new DataEntry(m_FrontUpperMotor, "Front Upper Talon",0);
+        talons[2] = new DataEntry(m_FrontLowerMotor, "Front Lower Talon",0);
       // The left motor is CCW+
       currentConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
       currentConfigs.NeutralMode = NeutralModeValue.Coast;
@@ -38,46 +56,43 @@ public class ShooterSubsystem extends SubsystemBase {
 
       // Ensure our followers are following their respective leader
       m_FrontLowerMotor.setControl(new Follower(m_FrontUpperMotor.getDeviceID(), MotorAlignmentValue.Aligned));
-      m_RearMotor.setControl(new Follower(m_DeployMotor.getDeviceID(), MotorAlignmentValue.Aligned));
     }
-
-
-    
-    public Command runLoaderMotor(){
-        return runOnce(() -> {
+    public void runLoaderMotor() {
             m_LoaderMotor.set(ShooterConstants.kLoaderDutyCycle);
-            
-            //System.out.println(this.getEncoderCount());
-    });
+    }
+    public void runRearMotor() {
+        m_RearMotor.setControl(new DutyCycleOut(ShooterConstants.kRearMotorDutyCycle));
     }
 
+    public void runFrontMotors() {
+        m_FrontUpperMotor.setControl(new DutyCycleOut(ShooterConstants.kFrontMotorsDutyCycle));
+    }
+    public Command runShooter() {
+        return runOnce(() -> {
+            //runRearMotor();
+            runFrontMotors();
+            Timer.delay(.5);
+            runLoaderMotor();
+        });
+    }
     public Command stop(){
         return runOnce(() ->{
             m_LoaderMotor.stopMotor();
-            m_DeployMotor.stopMotor();
             m_FrontUpperMotor.stopMotor();
             m_FrontLowerMotor.stopMotor();
+            m_RearMotor.stopMotor();
         });
     }
-
-    public void runRearMotor(double speed) {
-        m_DeployMotor.setControl(new DutyCycleOut(speed));
+    @Override
+    public void periodic() 
+    {
+        
+        for (var i=0; i<talons.length; i++) {
+            talons[i].motor.getVelocity().refresh();
+            double rps = talons[i].motor.getVelocity().getValueAsDouble();
+            double rpm =rps*60;
+            SmartDashboard.putNumber(talons[i].name, rpm);
+        }
+        
     }
-
-    public void runFrontMotors(double speed) {
-        m_FrontUpperMotor.setControl(new DutyCycleOut(speed));
-    }
-
-    public Command runShooter() {
-        return runOnce(() -> {
-            // Code to set shooter motors to the desired speed
-            //runRearMotor(-0.1);
-            runFrontMotors(.05);
-        });
-    }
-
- //   public static void 
-
-    // Define methods to control the shooter, such as setting speed, stopping, etc.
-    
 }
