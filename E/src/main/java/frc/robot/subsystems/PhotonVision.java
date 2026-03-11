@@ -71,7 +71,9 @@ public class PhotonVision extends SubsystemBase {
     //Initialize vision estimation variable
     Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
-    
+    private final EstimateConsumer estConsumer;    
+
+    private Pose2d robotPose;
 
 
     //Get the robot's pose on the field and distance data
@@ -103,7 +105,8 @@ public class PhotonVision extends SubsystemBase {
                                 // Change our trust in the measurement based on the tags we can see
                                 var estStdDevs = getEstimationStdDevs();
                                 var robotPose = est.estimatedPose.toPose2d();
-                                var poseTimestamp = est.timestampSeconds;
+
+                                estConsumer.accept(robotPose, est.timestampSeconds, estStdDevs);
                                 
                             });
                      }
@@ -189,6 +192,11 @@ public class PhotonVision extends SubsystemBase {
 
     public Matrix<N3, N1> getEstimationStdDevs() {
         return curStdDevs;
+    }
+
+    @FunctionalInterface
+    public static interface EstimateConsumer {
+        public void accept(Pose2d pose, double timestamp, Matrix<N3, N1> estimationStdDevs);
     }
 
 }
