@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
-import frc.robot.subsystems.VisionExample.Cameras;
+import frc.robot.subsystems.Vision.Cameras;
 
 import java.io.File;
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @param directory Directory of swerve drive config files.
    */
 
-  PhotonCamera camera = new PhotonCamera("camera1");
+  // PhotonCamera camera = new PhotonCamera("camera1");
 
    public SwerveSubsystem(File directory)
   { 
@@ -103,25 +103,9 @@ public class SwerveSubsystem extends SubsystemBase
   public Command aimAtTarget()
   {
     return run(() -> {
-        double targetYaw = 0.0;
-        var results = camera.getAllUnreadResults();
-        if (!results.isEmpty()) {
-          // Camera processed a new frame since last
-          // Get the last one in the list.
-          var result = results.get(results.size() - 1);
-          if (result.hasTargets()) {
-              // At least one AprilTag was seen by the camera
-              for (var target : result.getTargets()) {
-                  if (target.getFiducialId() == -0) {// need to replace with tag we are looking for
-                      // Found Tag 0, record its information
-                      targetYaw = target.getYaw();
-                  }
-              }
-          }
-        }
-          drive(getTargetSpeeds(0,
-                                0,
-                                Rotation2d.fromDegrees(targetYaw))); // Not sure if this will work, more math may be required.
+          //drive(getTargetSpeeds(0,
+          //                      0,
+          //                      Rotation2d.fromDegrees(targetYaw))); // Not sure if this will work, more math may be required.
         
       
     });
