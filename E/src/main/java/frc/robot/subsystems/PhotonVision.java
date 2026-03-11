@@ -195,9 +195,4 @@ public class PhotonVision extends SubsystemBase {
         return curStdDevs;
     }
 
-    @FunctionalInterface
-    public static interface EstimateConsumer {
-        public void accept(Pose2d pose, double timestamp, Matrix<N3, N1> estimationStdDevs);
-    }
-
 }
