@@ -19,16 +19,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
-import frc.robot.subsystems.Vision.Cameras;
+import frc.robot.subsystems.Vision;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
 
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
@@ -45,14 +42,13 @@ public class SwerveSubsystem extends SubsystemBase {
    * Swerve drive object.
    */
   private final SwerveDrive swerveDrive;
+  private final Vision vision = new Vision();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
    * @param directory Directory of swerve drive config files.
    */
-
-  // PhotonCamera camera = new PhotonCamera("camera1");
 
   public SwerveSubsystem(File directory) {
     boolean blueAlliance = DriverStation.getAlliance().isPresent()
@@ -88,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
             // periodically when they are not moving.
     swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the
                                          // offsets onto it. Throws warning if not possible
+
   }
 
   /**
@@ -102,34 +99,22 @@ public class SwerveSubsystem extends SubsystemBase {
         Constants.MAX_SPEED,
         new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),
             Rotation2d.fromDegrees(0)));
+
   }
 
   // example aim at target command
-  public Command aimAtTarget(Cameras camera) {
+  public Command aimAtTarget() {
     return run(() -> {
-      double targetYaw = 0;
-      Optional<PhotonPipelineResult> results = camera.getLatestResult();
-          var result = results.get();
-          if (result.hasTargets()) {
-              // At least one AprilTag was seen by the camera
-              for (var target : result.getTargets()) {
-                  if (target.getFiducialId() == -0) {// need to replace with tag we are looking for
-                      // Found Tag 0, record its information
-                      targetYaw = target.getYaw();
-                  }
-              }
-        }
       drive(getTargetSpeeds(0,
-                            0,
-                            Rotation2d.fromDegrees(targetYaw))); // Not sure if this will work, more math
-      // may be required.
-
+          0,
+          Rotation2d.fromDegrees(vision.getTargetTagYaw())));
     });
   }
 
   @Override
   public void periodic() {
   }
+
   @Override
   public void simulationPeriodic() {
   }

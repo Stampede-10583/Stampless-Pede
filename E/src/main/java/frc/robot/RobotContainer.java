@@ -9,7 +9,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import java.io.File;
-import com.pathplanner.lib.auto.NamedCommands;
+
 
 import edu.wpi.first.wpilibj.Filesystem;
 import frc.robot.subsystems.IntakeArm;
@@ -27,22 +27,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  private final SwerveSubsystem m_swervedrive = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve"));
+    private final SwerveSubsystem m_swervedrive = new SwerveSubsystem(
+  new File(Filesystem.getDeployDirectory(), "swerve"));
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final IntakeArm m_intake = new IntakeArm();
   CommandXboxController m_DriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
-    // NamedCommands.registerCommand("shooterShoot", m_shooter.runLoaderMotor());
-    // NamedCommands.registerCommand("shooterStop", m_shooter.stop());
-
-    // NamedCommands.registerCommand("testStart", m_motorTest.runTestMotor());
-    // NamedCommands.registerCommand("testStop", m_motorTest.stopTestMotor());
-
     configureBindings();
-
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(m_swervedrive.getSwerveDrive(),
@@ -72,8 +64,8 @@ public class RobotContainer {
     m_DriverController.leftBumper().onTrue(m_intake.retractIntake()).onFalse(m_intake.stopDeployMotor());
     m_DriverController.rightBumper().onTrue(m_intake.deployIntake()).onFalse(m_intake.stopDeployMotor());
     m_DriverController.rightTrigger().onTrue(m_shooter.runShooter()).onFalse(m_shooter.stop());
-    // m_DriverController.leftTrigger().onTrue(m_intake.runIntake()).onFalse(m_intake.stopIntake());
-    // m_DriverController.a();
+    //m_DriverController.leftTrigger().onTrue(m_intake.runIntake()).onFalse(m_intake.stopIntake());
+    m_DriverController.a().toggleOnTrue(m_swervedrive.aimAtTarget());
     m_DriverController.leftStick().onTrue(m_swervedrive.centerModulesCommand())
         .onFalse(driveFieldOrientedAnglularVelocity);
     m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand())

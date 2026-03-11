@@ -43,7 +43,6 @@ public final class Constants {
   }
 
   public static class DriveConstants {
-
     // Swerve CanIDs
     public static final int kFrontLeftDrivingCanID = 3;
     public static final int kFrontRightDrivingCanID = 5;
@@ -62,7 +61,7 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kDeployMotorCanID = 14;
     public static final int kIntakeMotorCanID = 15;
-    public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if
+    public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
     public static final double kIntakeSpeed = 0; // Adjust as necessary
     public static final double kDeployDutyCycle = 0.25; // Adjust as necessary
@@ -76,24 +75,17 @@ public final class Constants {
     public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
-
     public static final double kLoaderDutyCycle = 0.6; // Adjust as necessary
     public static final double kFrontMotorsDutyCycle = 0.4; // Adjust as necessary
     public static final double kRearMotorDutyCycle = 0.4; // Adjust as necessary
   }
 
-  public static class ClimbConstants {
-    // Only God :duck:ing knows
-  }
-
   public static class VisionConstants {
-    // Camera name
-    public static final String kCameraName = "IDKYetTBD";
 
+    public static final String kCameraName = "Camera1";
     // Offset from the center of the camera to the robot center
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0.3937, -0.4699),
         new Rotation3d(-0.0698132, 0, 0));
-
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
   }
@@ -109,5 +101,4 @@ public final class Constants {
   public static class AutoConstants {
     // anyone who asks about ts is a shoot on sight
   }
-
 }

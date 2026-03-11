@@ -30,7 +30,8 @@ class DataEntry {
 }
 
 public class ShooterSubsystem extends SubsystemBase {
-    private final SparkMax m_LoaderMotor = new SparkMax(ShooterConstants.kShooterLoaderMotorCanID, MotorType.kBrushless);
+    private final SparkMax m_LoaderMotor = new SparkMax(ShooterConstants.kShooterLoaderMotorCanID,
+            MotorType.kBrushless);
     final TalonFX m_RearMotor = new TalonFX(ShooterConstants.kShooterRearMotorCanID);
     final TalonFX m_FrontUpperMotor = new TalonFX(ShooterConstants.kShooterFrontUpperMotorCanID);
     final TalonFX m_FrontLowerMotor = new TalonFX(ShooterConstants.kShooterFrontLowerMotorCanID);

@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeArm extends SubsystemBase {
     private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
     private final SparkMax m_IntakeMotor = new SparkMax(IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
-
     public final MutAngle mut_angle = Degrees.mutable(0);
     private final DutyCycleOut m_DeployDutyCycle = new DutyCycleOut(IntakeConstants.kDeployDutyCycle);
     private final DutyCycleOut m_RetractDutyCycle = new DutyCycleOut(IntakeConstants.kRetractDutyCycle);
