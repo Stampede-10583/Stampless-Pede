@@ -36,7 +36,7 @@ public final class Constants {
   public static final Matter CHASSIS = new Matter(
       new Translation3d(Units.inchesToMeters(26), Units.inchesToMeters(26), Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
-  public static double MAX_SPEED = Units.feetToMeters(1);
+  public static double MAX_SPEED = Units.feetToMeters(1.5);
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
