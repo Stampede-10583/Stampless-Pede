@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
         return runOnce(() -> {
             runRearMotor();
             runFrontMotors();
-            Timer.delay(.5);
+            Timer.delay(.3);
             runLoaderMotor();
         });
     }

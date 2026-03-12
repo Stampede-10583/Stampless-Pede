@@ -32,6 +32,7 @@ public final class Constants {
   // some of these must be manually added to physicalproperties.json.
   // we also need values for steering angular velocity and friction
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+
   public static final Matter CHASSIS = new Matter(
       new Translation3d(Units.inchesToMeters(26), Units.inchesToMeters(26), Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
@@ -63,9 +64,9 @@ public final class Constants {
     public static final int kIntakeMotorCanID = 15;
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
-    public static final double kIntakeSpeed = 0; // Adjust as necessary
+    public static final double kIntakeSpeed = -1; // Adjust as necessary
     public static final double kDeployDutyCycle = 0.25; // Adjust as necessary
-    public static final double kRetractDutyCycle = -0.25; // Adjust as necessary
+    public static final double kRetractDutyCycle = -0.3; // Adjust as necessary
   }
 
   public static class ShooterConstants {
@@ -75,9 +76,9 @@ public final class Constants {
     public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
-    public static final double kLoaderDutyCycle = 0.6; // Adjust as necessary
-    public static final double kFrontMotorsDutyCycle = 0.4; // Adjust as necessary
-    public static final double kRearMotorDutyCycle = 0.4; // Adjust as necessary
+    public static final double kLoaderDutyCycle = 1; // Adjust as necessary
+    public static final double kFrontMotorsDutyCycle = 0.8; // Adjust as necessary
+    public static final double kRearMotorDutyCycle = 0.8; // Adjust as necessary
   }
 
   public static class VisionConstants {
@@ -85,7 +86,7 @@ public final class Constants {
     public static final String kCameraName = "camera1";
     // Offset from the center of the camera to the robot center
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0.3937, -0.4699),
-        new Rotation3d(-0.0698132, 0, 0));
+        new Rotation3d(Units.degreesToRadians(86), 0, 0));
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
   }
