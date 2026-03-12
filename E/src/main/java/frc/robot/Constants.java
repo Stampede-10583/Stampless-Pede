@@ -82,7 +82,7 @@ public final class Constants {
 
   public static class VisionConstants {
 
-    public static final String kCameraName = "Camera1";
+    public static final String kCameraName = "camera1";
     // Offset from the center of the camera to the robot center
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0.3937, -0.4699),
         new Rotation3d(-0.0698132, 0, 0));
