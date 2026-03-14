@@ -1,0 +1,40 @@
+{
+  "NetworkTables": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Alerts": "Alerts",
+      "/SmartDashboard/Encoders": "Alerts",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/IMU": "Alerts",
+      "/SmartDashboard/JSON": "Alerts",
+      "/SmartDashboard/Motors": "Alerts",
+      "/SmartDashboard/PathPlanner": "Alerts",
+      "/SmartDashboard/Pigeon 2 (v6) [16]": "Gyro",
+      "/SmartDashboard/Pigeon IMU [16]": "Gyro",
+      "/SmartDashboard/Swerve Drive": "Alerts"
+    }
+  },
+  "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
+    },
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "listenAddress": "10.105.83.2",
+    "mode": "Client (NT4)",
+    "serverTeam": "10583"
+  }
+}
