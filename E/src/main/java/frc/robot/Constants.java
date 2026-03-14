@@ -31,12 +31,14 @@ import swervelib.math.Matter;
 public final class Constants {
   // some of these must be manually added to physicalproperties.json.
   // we also need values for steering angular velocity and friction
-  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-
+  public static final double ROBOT_MASS = Units.lbsToKilograms(90.4); // 32lbs * kg per pound
+  public static final double ROBOT_WIDTH = Units.inchesToMeters(26);
+  public static final double ROBOT_LENGTH = Units.inchesToMeters(26);
+  public static final double MOI = (1/12)* ROBOT_MASS * (ROBOT_LENGTH*ROBOT_LENGTH) * (ROBOT_WIDTH*ROBOT_WIDTH); //moment of inertia
   public static final Matter CHASSIS = new Matter(
       new Translation3d(Units.inchesToMeters(26), Units.inchesToMeters(26), Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
-  public static double MAX_SPEED = Units.feetToMeters(1.5);
+  public static double MAX_SPEED = 4.9;
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -65,9 +67,9 @@ public final class Constants {
     public static final int kIntakeMotorCanID = 15;
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
-    public static final double kIntakeSpeed = -1; // Adjust as necessary
-    public static final double kDeployDutyCycle = 0.25; // Adjust as necessary
-    public static final double kRetractDutyCycle = -0.3; // Adjust as necessary
+    public static final double kIntakeSpeed = 1; // Adjust as necessary
+    public static final double kDeployDutyCycle = 0.20; // Adjust as necessary
+    public static final double kRetractDutyCycle = -0.25; // Adjust as necessary
   }
 
   public static class ShooterConstants {
@@ -78,8 +80,8 @@ public final class Constants {
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
     public static final double kLoaderDutyCycle = 1; // Adjust as necessary
-    public static final double kFrontMotorsDutyCycle = 0.8; // Adjust as necessary
-    public static final double kRearMotorDutyCycle = 0.8; // Adjust as necessary
+    public static final double kFrontMotorsDutyCycle = 1; // Adjust as necessary
+    public static final double kRearMotorDutyCycle = .6; // Adjust as necessary
     
   }
 
