@@ -89,7 +89,7 @@ public class RobotContainer {
         .onFalse(driveFieldOrientedAngularVelocity);
     m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand())
         .onFalse(driveFieldOrientedAngularVelocity);
-    m_DriverController.x().toggleOnTrue(c_DistLock)
+    m_DriverController.x().toggleOnTrue(c_AutoAlign)
         .onFalse(driveFieldOrientedAngularVelocity);
 
   }
