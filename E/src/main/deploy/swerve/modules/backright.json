@@ -17,7 +17,7 @@
   "encoder": {
     "type": "cancoder",
     "id": 19,
-    "canbus": null
+    "canbus": "CANivore"
   },
   "inverted": {
     "drive": false,
