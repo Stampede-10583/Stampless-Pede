@@ -17,7 +17,7 @@ public class ShootCommand extends Command {
     private final int[] targetTagIDs;
     private double closestRadius;
 
-    record MotorOutputVelocities(double FrontMotorVelocity, double RearMotorVelocity) {
+    record MotorOutputVelocities(double FrontMotorVelocityRPM, double RearMotorVelocityRPM) {
     }
 
     private HashMap<Double, MotorOutputVelocities> distanceToVelocityMap = new HashMap<>(); // this is a placeholder for
@@ -31,25 +31,28 @@ public class ShootCommand extends Command {
         m_vision = visionArg;
         targetTagIDs = targetTagIDArgs;
         addRequirements(m_shooter, m_vision);
-        distanceToVelocityMap.put(OperatorConstants.kRadii[0], new MotorOutputVelocities(10.0, 10.0)); // Example
-                                                                                                       // mapping,
-                                                                                                       // replace with
-                                                                                                       // actual values
-        distanceToVelocityMap.put(OperatorConstants.kRadii[1], new MotorOutputVelocities(20.0, 20.0)); // Example
-                                                                                                       // mapping,
-                                                                                                       // replace with
-                                                                                                       // actual values
-        distanceToVelocityMap.put(OperatorConstants.kRadii[2], new MotorOutputVelocities(30.0, 30.0)); // Example
-                                                                                                       // mapping,
-                                                                                                       // replace with
-                                                                                                       // actual values
+        distanceToVelocityMap.put(OperatorConstants.kRadii[0], new MotorOutputVelocities(100.0, 100.0)); // Example
+                                                                                                         // mapping,
+                                                                                                         // replace with
+                                                                                                         // actual
+                                                                                                         // values
+        distanceToVelocityMap.put(OperatorConstants.kRadii[1], new MotorOutputVelocities(200.0, 200.0)); // Example
+                                                                                                         // mapping,
+                                                                                                         // replace with
+                                                                                                         // actual
+                                                                                                         // values
+        distanceToVelocityMap.put(OperatorConstants.kRadii[2], new MotorOutputVelocities(300.0, 300.0)); // Example
+                                                                                                         // mapping,
+                                                                                                         // replace with
+                                                                                                         // actual
+                                                                                                         // values
     }
 
     @Override
     public void initialize() {
         closestRadius = Vision.findClosestRadius(OperatorConstants.kRadii, Vision.getTagDistance(targetTagIDs[1]));
-        m_shooter.runFrontMotors(distanceToVelocityMap.get(closestRadius).FrontMotorVelocity());
-        m_shooter.runRearMotor(distanceToVelocityMap.get(closestRadius).RearMotorVelocity());
+        m_shooter.runFrontMotors(distanceToVelocityMap.get(closestRadius).FrontMotorVelocityRPM() / 60);
+        m_shooter.runRearMotor(distanceToVelocityMap.get(closestRadius).RearMotorVelocityRPM() / 60);
         Timer.delay(.1);
         m_intakeArm.runIntake(-(IntakeConstants.kIntakeVelocity / 2)); // FOR NOW
         m_shooter.runLoaderMotor();
