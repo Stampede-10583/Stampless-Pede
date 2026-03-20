@@ -93,26 +93,26 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
   }
 
-  public void sendVisionToDrivetrain() {
-    swerveDrive.addVisionMeasurement(Vision.robotPose, Vision.poseTimestamp, Vision.estStdDevs);
-  }
+  // public void sendVisionToDrivetrain() {
+  //   swerveDrive.addVisionMeasurement(Vision.robotPose, Vision.poseTimestamp, Vision.estStdDevs);
+  // }
 
   //Get robot pose and send it to drivetrain
-  public Command getRobotPose() {
-    return run(() -> {
+  // public Command getRobotPose() {
+  //   return run(() -> {
 
-      Vision.getVisionPose();
-      sendVisionToDrivetrain();
+  //     Vision.getVisionPose();
+  //     sendVisionToDrivetrain();
 
-    });
-  }
+  //   });
+  // }
 
   @Override
   public void periodic()
   {
     //Get robot pose periodically
     //to-do: add a check to make sure vision actually has a pose estimate before we use the vision pose
-    CommandScheduler.getInstance().schedule(getRobotPose());
+    // CommandScheduler.getInstance().schedule(getRobotPose());
   }
 
   @Override
