@@ -40,15 +40,16 @@ public class RobotContainer {
   private final Vision m_vision = new Vision();
   CommandXboxController m_DriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final AimLock c_AimLock = new AimLock(m_swervedrive, m_vision, ktargetTagIDs);
+  private final ShootCommand c_ShootCommand = new ShootCommand(m_shooter, m_intake, m_vision, ktargetTagIDs[0]);
   private final DistanceLock c_DistLock = new DistanceLock(m_swervedrive, m_vision, m_DriverController, ktargetTagIDs);
-  private final moveRobotToDistance c_MoveToDistance = new moveRobotToDistance(m_swervedrive, m_vision, ktargetTagIDs, OperatorConstants.kradii);
+  private final moveRobotToDistance c_MoveToDistance = new moveRobotToDistance(m_swervedrive, m_vision, ktargetTagIDs, OperatorConstants.kRadii);
   private final AutoAlign c_AutoAlign = new AutoAlign(c_AimLock, c_DistLock, c_MoveToDistance);
   public RobotContainer() {
 
-    NamedCommands.registerCommand("deployIntake", m_intake.deployIntake());
+    NamedCommands.registerCommand("deployIntake", m_intake.deployIntakeCommand());
     NamedCommands.registerCommand("shoot", m_shooter.runShooter());
-    NamedCommands.registerCommand("runIntake", m_intake.runIntake());
-    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
+    NamedCommands.registerCommand("runIntake", m_intake.runIntakeCommand());
+    NamedCommands.registerCommand("stopIntake", m_intake.stopIntakeCommand());
     NamedCommands.registerCommand("AimLock", c_AimLock);
     NamedCommands.registerCommand("DistanceLock", c_DistLock);
 
@@ -59,8 +60,8 @@ public class RobotContainer {
       () -> m_DriverController.getLeftY() * -1,
       () -> m_DriverController.getLeftX() * -1)
       .withControllerRotationAxis(m_DriverController::getRightX)
-      .deadband(OperatorConstants.DEADBAND)
-      .scaleTranslation(OperatorConstants.kscale)
+      .deadband(OperatorConstants.kDeadband)
+      .scaleTranslation(OperatorConstants.kScale)
       .allianceRelativeControl(true);
 
   /**
@@ -79,11 +80,11 @@ public class RobotContainer {
     Command driveFieldOrientedAngularVelocity = m_swervedrive.driveFieldOriented(driveAngularVelocity);
     m_swervedrive.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
-    m_DriverController.leftBumper().onTrue(m_intake.retractIntake()).onFalse(m_intake.stopDeployMotor());
-    m_DriverController.rightBumper().onTrue(m_intake.deployIntake()).onFalse(m_intake.stopDeployMotor());
+    m_DriverController.leftBumper().onTrue(m_intake.retractIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
+    m_DriverController.rightBumper().onTrue(m_intake.deployIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
     m_DriverController.rightTrigger().onTrue(m_shooter.runShooter()).onTrue(m_intake.runIntakeReverse())
-        .onFalse(m_shooter.stop()).onFalse(m_intake.stopIntake());
-    m_DriverController.leftTrigger().onTrue(m_intake.runIntake()).onFalse(m_intake.stopIntake());
+        .onFalse(m_shooter.stop()).onFalse(m_intake.stopIntakeCommand());
+    m_DriverController.leftTrigger().onTrue(m_intake.runIntakeCommand()).onFalse(m_intake.stopIntakeCommand());
     m_DriverController.a().toggleOnTrue(c_AimLock).onFalse(driveFieldOrientedAngularVelocity);
     m_DriverController.b().onTrue(m_swervedrive.centerModulesCommand())
         .onFalse(driveFieldOrientedAngularVelocity);

@@ -10,13 +10,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import static edu.wpi.first.units.Units.Amps;
 
-import java.lang.module.ModuleReader;
-
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -90,29 +85,33 @@ public class ShooterSubsystem extends SubsystemBase {
         m_LoaderMotor.set(ShooterConstants.kLoaderDutyCycle);
     }
 
-    public void runRearMotor() {
-        m_RearMotor.setControl(m_velocityTorque.withVelocity(ShooterConstants.kRearMotorVelocity));
+    public void runRearMotor(double velocity) {
+        m_RearMotor.setControl(m_velocityTorque.withVelocity(velocity));
     }
 
-    public void runFrontMotors() {
-        m_FrontUpperMotor.setControl(m_velocityTorque.withVelocity(ShooterConstants.kFrontMotorsVelocity));
+    public void runFrontMotors(double velocity) {
+        m_FrontUpperMotor.setControl(m_velocityTorque.withVelocity(velocity));
     }
 
     public Command runShooter() {
         return runOnce(() -> {
-            runRearMotor();
-            runFrontMotors();
+            runRearMotor(ShooterConstants.kRearMotorVelocity);
+            runFrontMotors(ShooterConstants.kFrontMotorsVelocity);
             Timer.delay(.1);
             runLoaderMotor();
         });
     }
 
+    public void stopShooter() {
+        m_LoaderMotor.stopMotor();
+        m_FrontUpperMotor.stopMotor();
+        m_FrontLowerMotor.stopMotor();
+        m_RearMotor.stopMotor();
+    }
+
     public Command stop() {
         return runOnce(() -> {
-            m_LoaderMotor.stopMotor();
-            m_FrontUpperMotor.stopMotor();
-            m_FrontLowerMotor.stopMotor();
-            m_RearMotor.stopMotor();
+            stopShooter();
         });
     }
 

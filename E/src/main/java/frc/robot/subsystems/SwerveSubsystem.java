@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -216,7 +215,7 @@ public class SwerveSubsystem extends SubsystemBase
       // Make the robot move
       swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
                             translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
-                            translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), OperatorConstants.kscale),
+                            translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), OperatorConstants.kScale),
                         Math.pow(angularRotationX.getAsDouble(), 3) * 0.4 * swerveDrive.getMaximumChassisAngularVelocity(),
                         true,
                         false);
@@ -239,7 +238,7 @@ public class SwerveSubsystem extends SubsystemBase
     return run(() -> {
 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
-                                                                                 translationY.getAsDouble()), OperatorConstants.kscale);
+                                                                                 translationY.getAsDouble()), OperatorConstants.kScale);
 
       // Make the robot move
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(scaledInputs.getX(), scaledInputs.getY(),

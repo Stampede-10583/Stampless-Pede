@@ -50,7 +50,7 @@ public class DistanceLock extends Command {
     public void execute() {
         
         //Uses the equation of a circle with radius currentDistance and center at the location of the tag to find the y translation for a joystick x-translation
-        yTranslation = -1 * controller.getLeftY() * swerve.getSwerveDrive().getMaximumChassisVelocity() * OperatorConstants.kscale;
+        yTranslation = -1 * controller.getLeftY() * swerve.getSwerveDrive().getMaximumChassisVelocity() * OperatorConstants.kScale;
         yDesiredPose = Vision.robotPose.getY() + yTranslation;
         xDesiredPose = (-1 * Math.sqrt(currentDistance*currentDistance - (yDesiredPose - poseTag.getY())*(yDesiredPose - poseTag.getY()))) + poseTag.getX();
         xTranslation = xDesiredPose - Vision.robotPose.getX();
