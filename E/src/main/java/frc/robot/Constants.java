@@ -48,15 +48,15 @@ public final class Constants {
 
   public static class DriveConstants {
     // Swerve CanIDs
-    public static final int kFrontLeftDrivingCanID = 3;
-    public static final int kFrontRightDrivingCanID = 5;
-    public static final int kRearRightDrivingCanID = 7;
-    public static final int kRearLeftDrivingCanID = 9;
+    public static final int kFrontLeftDrivingCanID = 2;
+    public static final int kFrontRightDrivingCanID = 4;
+    public static final int kRearRightDrivingCanID = 6;
+    public static final int kRearLeftDrivingCanID = 8;
 
-    public static final int kFrontLeftTurningCanID = 2;
-    public static final int kFrontRightTurningCanID = 4;
-    public static final int kRearRightTurningCanID = 6;
-    public static final int kRearLeftTurningCanID = 8;
+    public static final int kFrontLeftTurningCanID = 1;
+    public static final int kFrontRightTurningCanID = 3;
+    public static final int kRearRightTurningCanID = 5;
+    public static final int kRearLeftTurningCanID = 7;
 
   }
 
@@ -64,7 +64,7 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final int kDeployMotorCanID = 14;
-    public static final int kIntakeMotorCanID = 15;
+    public static final int kIntakeMotorCanID = 13;
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
     public static final double kIntakeSpeed = 1; // Adjust as necessary
@@ -74,7 +74,7 @@ public final class Constants {
 
   public static class ShooterConstants {
     // we lowk need dose encodors plsplspls stevenplspls
-    public static final int kShooterLoaderMotorCanID = 13;
+    public static final int kShooterLoaderMotorCanID = 9;
     public static final int kShooterRearMotorCanID = 10;
     public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
