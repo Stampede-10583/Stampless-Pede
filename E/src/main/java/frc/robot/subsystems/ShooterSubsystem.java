@@ -59,16 +59,12 @@ public class ShooterSubsystem extends SubsystemBase {
                 .withMotorOutput(rearConfig.MotorOutput.clone().withInverted(InvertedValue.CounterClockwise_Positive));
         // set slot 0 gains
         upperConfig.Slot0.kS = ShooterConstants.kDoubleMotorkS; // Add 0.25 V output to overcome static friction
-        upperConfig.Slot0.kV = ShooterConstants.kDoubleMotorkV; // A velocity target of 1 rps results in 0.12 V output
-        upperConfig.Slot0.kA = ShooterConstants.kDoubleMotorkA; // An acceleration of 1 rps/s requires 0.01 V output
         upperConfig.Slot0.kP = ShooterConstants.kDoubleMotorkP; // A position error of 2.5 rotations results in 12V
         upperConfig.Slot0.kI = ShooterConstants.kDoubleMotorkI; // no output for integrated error
         upperConfig.Slot0.kD = ShooterConstants.kDoubleMotorkD; // A velocity error of 1 rps results in 0.1 V output
 
         // set slot 1 gains
         rearConfig.Slot0.kS = ShooterConstants.kRearMotorkS; // Add 0.25 V output to overcome static friction
-        rearConfig.Slot0.kV = ShooterConstants.kRearMotorkV; // A velocity target of 1 rps results in 0.12 V output
-        rearConfig.Slot0.kA = ShooterConstants.kRearMotorkA; // An acceleration of 1 rps/s requires 0.01 V output
         rearConfig.Slot0.kP = ShooterConstants.kRearMotorkP; // A position error of 2.5 rotations results in 12 V output
         rearConfig.Slot0.kI = ShooterConstants.kRearMotorkI; // no output for integrated error
         rearConfig.Slot0.kD = ShooterConstants.kRearMotorkD; // A velocity error of 1 rps results in 0.1 V output

@@ -70,30 +70,23 @@ public final class Constants {
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
     public static final double kIntakeArmRotationOffset = 95;
-    public static final double kIntakeSpeed = 1; // Adjust as necessary
-    public static final double kDeployDutyCycle = 0.50; // Adjust as necessary
-    public static final double kRetractDutyCycle = -0.67; // Adjust as necessary
+    public static final double kIntakeDutyCycle = .5; // Adjust as necessary
 
-    public static final double kDeployMotorkS = 0.25; // Add 0.25 V output to overcome static friction
-    public static final double kDeployMotorkV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    public static final double kDeployMotorkA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
     public static final double kDeployMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kDeployMotorkI = 0; // no output for integrated error
     public static final double kDeployMotorkD = 0.1;
 
     public static final double kIntakeMotorkS = 0.25; // Add 0.25 V output to overcome static friction
-    public static final double kIntakeMotorkV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    public static final double kIntakeMotorkA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
     public static final double kIntakeMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kIntakeMotorkI = 0; // no output for integrated error
     public static final double kIntakeMotorkD = 0.1;
 
     public static final double kDeployMaxCurrent = 40;
     public static final double kIntakeMaxCurrent = 40;
-    public static final double kDeployVelocity = 1;
+    public static final double kDeployPosition = 0;
     public static final double kIntakeVelocity = 10;
-    public static final double kRetractVelocity = -(10);
-    public static final double kIntakeJiggleVelocity = 1;
+    public static final double kRetractPosition = kIntakeArmRotationOffset;
+    public static final double kIntakeJigglePosition = 15;
   }
 
   public static class ShooterConstants {
@@ -108,15 +101,11 @@ public final class Constants {
     public static final double kRearMotorDutyCycle = .6; // Adjust as necessary
     
     public static final double kDoubleMotorkS = 0.25; // Add 0.25 V output to overcome static friction
-    public static final double kDoubleMotorkV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    public static final double kDoubleMotorkA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
     public static final double kDoubleMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kDoubleMotorkI = 0; // no output for integrated error
     public static final double kDoubleMotorkD = 0.1; // A velocity error of 1 rps results in 0.1 V output
 
     public static final double kRearMotorkS = 0.25; // Add 0.25 V output to overcome static friction
-    public static final double kRearMotorkV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    public static final double kRearMotorkA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
     public static final double kRearMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kRearMotorkI = 0; // no output for integrated error
     public static final double kRearMotorkD = 0.1; // A velocity error of 1 rps results in 0.1 V output

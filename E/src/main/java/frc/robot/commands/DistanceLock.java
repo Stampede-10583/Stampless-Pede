@@ -42,8 +42,8 @@ public class DistanceLock extends Command {
     @Override
     public void initialize() {
         // find distance from bot to tag
-        currentDistance = Vision.getTagDistance(targetTagIDs[0]);
-        poseTag = Vision.getTagPose(targetTagIDs[0]);
+        currentDistance = Vision.getTagDistance(targetTagIDs[1]);
+        poseTag = Vision.getTagPose(targetTagIDs[1]);
 
     }
 

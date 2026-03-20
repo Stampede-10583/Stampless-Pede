@@ -32,7 +32,7 @@ public class AimLock extends Command {
   @Override
   public void execute() {
     // add code to turn bot constantly
-    Rotation2d yawToTurn = Vision.getTargetTagYaw(targetTagIDs[0]);
+    Rotation2d yawToTurn = Vision.getTargetTagYaw(targetTagIDs[1]);
 
     var rotationVelocity = swerve.getTargetSpeeds(0.0, 0.0, yawToTurn);
     swerve.driveFieldOriented(rotationVelocity);

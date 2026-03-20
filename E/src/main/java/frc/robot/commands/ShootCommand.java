@@ -14,7 +14,7 @@ public class ShootCommand extends Command {
     private final ShooterSubsystem m_shooter;
     private final IntakeArm m_intakeArm;
     private final Vision m_vision;
-    private final int targetTagID;
+    private final int[] targetTagIDs;
     private double closestRadius;
 
     record MotorOutputVelocities(double FrontMotorVelocity, double RearMotorVelocity) {
@@ -25,11 +25,11 @@ public class ShootCommand extends Command {
                                                                                             // be used to convert
                                                                                             // distance to velocity
 
-    public ShootCommand(ShooterSubsystem shooterArg, IntakeArm intakeArmArg, Vision visionArg, int targetTagIDArg) {
+    public ShootCommand(ShooterSubsystem shooterArg, IntakeArm intakeArmArg, Vision visionArg, int[] targetTagIDArgs) {
         m_shooter = shooterArg;
         m_intakeArm = intakeArmArg;
         m_vision = visionArg;
-        targetTagID = targetTagIDArg;
+        targetTagIDs = targetTagIDArgs;
         addRequirements(m_shooter, m_vision);
         distanceToVelocityMap.put(OperatorConstants.kRadii[0], new MotorOutputVelocities(10.0, 10.0)); // Example
                                                                                                        // mapping,
@@ -47,7 +47,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void initialize() {
-        closestRadius = Vision.findClosestRadius(OperatorConstants.kRadii, Vision.getTagDistance(targetTagID));
+        closestRadius = Vision.findClosestRadius(OperatorConstants.kRadii, Vision.getTagDistance(targetTagIDs[1]));
         m_shooter.runFrontMotors(distanceToVelocityMap.get(closestRadius).FrontMotorVelocity());
         m_shooter.runRearMotor(distanceToVelocityMap.get(closestRadius).RearMotorVelocity());
         Timer.delay(.1);
@@ -58,19 +58,20 @@ public class ShootCommand extends Command {
     @Override
     public void execute() {
         Timer.delay(1);
-        m_intakeArm.retractIntake(IntakeConstants.kIntakeJiggleVelocity);
+        m_intakeArm.deployIntake(IntakeConstants.kIntakeJigglePosition);
         Timer.delay(.1);
-        m_intakeArm.deployIntake(IntakeConstants.kIntakeJiggleVelocity);
+        m_intakeArm.deployIntake(0);
         Timer.delay(.1);
-        m_intakeArm.retractIntake(IntakeConstants.kIntakeJiggleVelocity);
+        m_intakeArm.deployIntake(IntakeConstants.kIntakeJigglePosition);
         Timer.delay(.1);
-        m_intakeArm.deployIntake(IntakeConstants.kIntakeJiggleVelocity);
+        m_intakeArm.deployIntake(0);
         Timer.delay(.1);
         m_intakeArm.stopDeployMotor();
     }
 
     @Override
     public void end(boolean isFinished) {
+        m_intakeArm.deployIntake(0);
         m_intakeArm.stopIntake();
         m_shooter.stopShooter();
         m_intakeArm.stopDeployMotor();

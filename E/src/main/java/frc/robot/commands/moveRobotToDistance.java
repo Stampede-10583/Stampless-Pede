@@ -32,8 +32,8 @@ public class moveRobotToDistance extends Command {
     public void initialize() {
 
         // Get the current distance from the tag
-        Rotation2d yawOfTag = Vision.getTargetTagYaw(targetTagIDs[0]);
-        double tagCurrentDistance = Vision.getTagDistance(targetTagIDs[0]);
+        Rotation2d yawOfTag = Vision.getTargetTagYaw(targetTagIDs[1]);
+        double tagCurrentDistance = Vision.getTagDistance(targetTagIDs[1]);
 
         // figure out which radius is closest to the bot
         closestRadius = Vision.findClosestRadius(OperatorConstants.kRadii, tagCurrentDistance);

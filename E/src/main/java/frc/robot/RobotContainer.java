@@ -42,7 +42,7 @@ public class RobotContainer {
   private final Vision m_vision = new Vision();
   CommandXboxController m_DriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final AimLock c_AimLock = new AimLock(m_swervedrive, m_vision, ktargetTagIDs);
-  private final ShootCommand c_ShootCommand = new ShootCommand(m_shooter, m_intake, m_vision, ktargetTagIDs[0]);
+  private final ShootCommand c_ShootCommand = new ShootCommand(m_shooter, m_intake, m_vision, ktargetTagIDs);
   private final DistanceLock c_DistLock = new DistanceLock(m_swervedrive, m_vision, m_DriverController, ktargetTagIDs);
   private final moveRobotToDistance c_MoveToDistance = new moveRobotToDistance(m_swervedrive, m_vision, ktargetTagIDs);
   private final AutoAlign c_AutoAlign = new AutoAlign(c_AimLock, c_DistLock, c_MoveToDistance);
