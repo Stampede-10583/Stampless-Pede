@@ -19,6 +19,7 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class AutoAlign extends Command {
   /** Creates a new AimLock. */
@@ -105,10 +106,11 @@ public class AutoAlign extends Command {
         currentDistance * currentDistance - (yDesiredPose - poseTag.getY()) * (yDesiredPose - poseTag.getY())))
         + poseTag.getX();
     xTranslation = xDesiredPose - m_vision.getRobotPose().getX();
+    
     generateCompensatedVector().ifPresent(
         yaw -> {
-          var rotationVelocity = m_swerve.getTargetSpeeds(xTranslation, yTranslation, yaw.getAngle());
-          m_swerve.driveFieldOriented(rotationVelocity);
+          ChassisSpeeds alignVelocity = m_swerve.getTargetSpeeds(xTranslation, yTranslation, yaw.getAngle());
+          m_swerve.driveFieldOriented(alignVelocity);
         });
   }
 
