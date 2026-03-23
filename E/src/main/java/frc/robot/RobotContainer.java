@@ -6,12 +6,17 @@ package frc.robot;
 
 import java.io.File;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -77,19 +82,25 @@ public class RobotContainer {
   public void configureBindings() {
     Command driveFieldOrientedAngularVelocity = m_swervedrive.driveFieldOriented(driveAngularVelocity);
     m_swervedrive.setDefaultCommand(driveFieldOrientedAngularVelocity);
-
-    m_DriverController.leftBumper().onTrue(m_intake.retractIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
-    m_DriverController.rightBumper().onTrue(m_intake.deployIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
+    m_DriverController.leftBumper().onTrue(Commands.runOnce(SignalLogger::start));
+    m_DriverController.rightBumper().onTrue(Commands.runOnce(SignalLogger::stop));
+    //m_DriverController.leftBumper().onTrue(m_intake.retractIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
+    //m_DriverController.rightBumper().onTrue(m_intake.deployIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
     m_DriverController.rightTrigger().onTrue(c_ShootCommand);
     m_DriverController.leftTrigger().onTrue(m_intake.runIntakeCommand()).onFalse(m_intake.stopIntakeCommand());
-    m_DriverController.a().toggleOnTrue(c_AutoAlign).onFalse(driveFieldOrientedAngularVelocity);
-    m_DriverController.b().onTrue(m_swervedrive.centerModulesCommand())
-        .onFalse(driveFieldOrientedAngularVelocity);
+    //m_DriverController.a().toggleOnTrue(c_AutoAlign).onFalse(driveFieldOrientedAngularVelocity);
+    //m_DriverController.b().onTrue(m_swervedrive.centerModulesCommand())
+    //    .onFalse(driveFieldOrientedAngularVelocity);
     m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand())
         .onFalse(driveFieldOrientedAngularVelocity);
-    m_DriverController.x().toggleOnTrue(m_swervedrive.sysIdAngleMotorCommand());
-    m_DriverController.y().toggleOnTrue(m_swervedrive.sysIdDriveMotorCommand());
-
+    //m_DriverController.x().toggleOnTrue(m_swervedrive.sysIdAngleMotorCommand());
+    //m_DriverController.y().toggleOnTrue(m_swervedrive.sysIdDriveMotorCommand());
+    m_DriverController.povDown().whileTrue(m_shooter.FrontsysIdDynamic(SysIdRoutine.Direction.kForward));
+    m_DriverController.povUp().whileTrue(m_shooter.FrontsysIdDynamic(SysIdRoutine.Direction.kReverse));
+    m_DriverController.povLeft().whileTrue(m_shooter.RearsysIdDynamic(SysIdRoutine.Direction.kForward));
+    m_DriverController.povRight().whileTrue(m_shooter.RearsysIdDynamic(SysIdRoutine.Direction.kReverse));
+    m_DriverController.a().whileTrue(m_swervedrive.sysIdAngleMotorCommand());
+    m_DriverController.b().whileTrue(m_swervedrive.sysIdDriveMotorCommand());
   }
 
   /**
