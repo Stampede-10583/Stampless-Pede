@@ -64,7 +64,7 @@ public class AutoAlign extends Command {
           targetYaw = Rotation2d.kZero;
         });
 
-    Translation2d targetPosition = m_vision.robotToPoint(currentDistance, targetYaw);
+    Translation2d targetPosition = m_vision.robotToPoint(currentDistance, targetYaw).plus(VisionConstants.kMiddleHubTagOffset);
 
     // Translation to be moved per second
     Translation2d robotVelocity = new Translation2d(Meters.of(m_swerve.getRobotVelocity().vxMetersPerSecond),
