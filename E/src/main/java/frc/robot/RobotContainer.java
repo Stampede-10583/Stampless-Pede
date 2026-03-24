@@ -4,17 +4,21 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import java.io.File;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -45,6 +49,7 @@ public class RobotContainer {
   private final Vision m_vision = new Vision(m_swervedrive);
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   //private final IntakeArm m_intake = new IntakeArm();
+  
   CommandXboxController m_DriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   //private final ShootCommand c_ShootCommand = new ShootCommand(m_shooter, m_intake, m_vision);
   private final moveRobotToDistance c_MoveToDistance = new moveRobotToDistance(m_swervedrive, m_vision);
@@ -68,7 +73,16 @@ public class RobotContainer {
       .deadband(OperatorConstants.kDeadband)
       .scaleTranslation(OperatorConstants.kScale)
       .allianceRelativeControl(true);
-
+  
+  // SwerveInputStream aimLockOnTag = SwerveInputStream.of(m_swervedrive.getSwerveDrive(),
+  //     () -> m_DriverController.getLeftY() * -1,
+  //     () -> m_DriverController.getLeftX() * -1)
+  //     .aim(m_vision.getTagPose(10))
+  //     .deadband(OperatorConstants.kDeadband)
+  //     .scaleTranslation(OperatorConstants.kScale)
+  //     .allianceRelativeControl(true);
+      
+      
   /**
    * Use this method to define bindings between conditions and commands. These are
    * useful for
@@ -83,18 +97,21 @@ public class RobotContainer {
 
   public void configureBindings() {
     Command driveFieldOrientedAngularVelocity = m_swervedrive.driveFieldOriented(driveAngularVelocity);
+    //Command driveAimLock = m_swervedrive.driveFieldOriented(aimLockOnTag);
     m_swervedrive.setDefaultCommand(driveFieldOrientedAngularVelocity);
+
     m_DriverController.leftBumper().onTrue(Commands.runOnce(SignalLogger::start));
     m_DriverController.rightBumper().onTrue(Commands.runOnce(SignalLogger::stop));
     //m_DriverController.leftBumper().onTrue(m_intake.retractIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
     //m_DriverController.rightBumper().onTrue(m_intake.deployIntakeCommand()).onFalse(m_intake.stopDeployMotorCommand());
     //m_DriverController.rightTrigger().onTrue(c_ShootCommand);
     // m_DriverController.leftTrigger().onTrue(m_intake.runIntakeCommand()).onFalse(m_intake.stopIntakeCommand());
-    m_DriverController.a().onTrue(c_AutoAlign);
+    m_DriverController.a().whileTrue(c_AutoAlign.withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     //m_DriverController.b().onTrue(m_swervedrive.centerModulesCommand())
     //    .onFalse(driveFieldOrientedAngularVelocity);
     m_DriverController.rightStick().onTrue(m_swervedrive.zeroGyroWithAllianceCommand())
         .onFalse(driveFieldOrientedAngularVelocity);
+    //aimLockOnTag.aimLock(Degrees.of(1)).and(m_DriverController.b()).whileTrue(driveAimLock);
     //m_DriverController.x().toggleOnTrue(m_swervedrive.sysIdAngleMotorCommand());
     //m_DriverController.y().toggleOnTrue(m_swervedrive.sysIdDriveMotorCommand());
     // m_DriverController.povDown().whileTrue(m_shooter.FrontsysIdDynamic(SysIdRoutine.Direction.kForward));

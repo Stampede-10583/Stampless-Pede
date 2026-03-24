@@ -65,6 +65,7 @@ public final class Constants {
     public static final int kFrontRightTurningCanID = 3;
     public static final int kRearRightTurningCanID = 5;
     public static final int kRearLeftTurningCanID = 7;
+    public static final double kAutoAimScale = .7;
   }
 
   // CanIDs that are negative need to be adjusted once bot is wired
