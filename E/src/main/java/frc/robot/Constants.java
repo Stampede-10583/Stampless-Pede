@@ -75,6 +75,7 @@ public final class Constants {
     public static final int kIntakeMotorCanID = 13;
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
+    public static final double kArmToDeployRotor = 2;
     public static final double kIntakeArmRotationOffset = 95;
     public static final double kIntakeDutyCycle = .5; // Adjust as necessary
 
@@ -122,7 +123,8 @@ public final class Constants {
     public static final double kFrontMotorsVelocity = 10;
     public static final double kRearMotorVelocity = 10;
     public static final double kMaxCurrent = 40; // maximum applied current (amperes)
-
+    public static final double kFrontRotorToRoller = 2;
+    public static final double kRearRotorToRoller = 2;
   }
 
   public static class VisionConstants {

@@ -4,6 +4,8 @@ import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -36,7 +38,8 @@ public class IntakeArm extends SubsystemBase {
         deployConfig.Slot0.kP = IntakeConstants.kDeployMotorkP; // A position error of 2.5 rotations results in 12V
         deployConfig.Slot0.kI = IntakeConstants.kDeployMotorkI; // no output for integrated error
         deployConfig.Slot0.kD = IntakeConstants.kDeployMotorkD; // A velocity error of 1 rps results in 0.1 V output
-
+        deployConfig.Feedback = new FeedbackConfigs().withSensorToMechanismRatio(IntakeConstants.kArmToDeployRotor);
+        
         intakeConfig.Slot0.kS = IntakeConstants.kIntakeMotorkS; // Add 0.25 V output to overcome static friction
         intakeConfig.Slot0.kP = IntakeConstants.kIntakeMotorkP; // A position error of 2.5 rotations results in 12V
         intakeConfig.Slot0.kI = IntakeConstants.kIntakeMotorkI; // no output for integrated error
