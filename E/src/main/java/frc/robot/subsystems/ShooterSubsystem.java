@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static record MotorOutputVelocities(double FrontMotorVelocityRPM, double RearMotorVelocityRPM,
             double exitVelocityMPS) {
     }
-    
+
     private final VoltageOut m_voltReq = new VoltageOut(0.0);
     // in init function
     private final SparkMax m_LoaderMotor = new SparkMax(ShooterConstants.kShooterLoaderMotorCanID,
@@ -100,8 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
         m_RearMotor.getConfigurator().apply(rearConfig.Slot0);
     }
 
-    
-
     private final SysIdRoutine m_rearSysIdRoutine = new SysIdRoutine(
             new SysIdRoutine.Config(
                     null, // Use default ramp rate (1 V/s)
@@ -124,28 +122,29 @@ public class ShooterSubsystem extends SubsystemBase {
                     (volts) -> m_FrontUpperMotor.setControl(m_voltReq.withOutput(volts.in(Volts))),
                     null,
                     this));
+
     public Command RearsysIdQuasistatic(SysIdRoutine.Direction direction) {
-   return m_rearSysIdRoutine.quasistatic(direction);
-}
+        return m_rearSysIdRoutine.quasistatic(direction);
+    }
 
-public Command RearsysIdDynamic(SysIdRoutine.Direction direction) {
-   return m_rearSysIdRoutine.dynamic(direction);
-}
-public Command FrontsysIdQuasistatic(SysIdRoutine.Direction direction) {
-   return m_frontSysIdRoutine.quasistatic(direction);
-}
+    public Command RearsysIdDynamic(SysIdRoutine.Direction direction) {
+        return m_rearSysIdRoutine.dynamic(direction);
+    }
 
-public Command FrontsysIdDynamic(SysIdRoutine.Direction direction) {
-   return m_frontSysIdRoutine.dynamic(direction);
-}
-public Command DoSysID() {
-    return runOnce(()->{
-        
-        
+    public Command FrontsysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return m_frontSysIdRoutine.quasistatic(direction);
+    }
 
+    public Command FrontsysIdDynamic(SysIdRoutine.Direction direction) {
+        return m_frontSysIdRoutine.dynamic(direction);
+    }
 
-    });
-}
+    public Command DoSysID() {
+        return runOnce(() -> {
+
+        });
+    }
+
     public void runLoaderMotor() {
         m_LoaderMotor.set(ShooterConstants.kLoaderDutyCycle);
     }

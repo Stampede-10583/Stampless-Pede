@@ -16,18 +16,21 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeArm extends SubsystemBase {
+public class IntakeSystem extends SubsystemBase {
     private final TalonFX m_DeployMotor = new TalonFX(IntakeConstants.kDeployMotorCanID);
     private final TalonFX m_IntakeMotor = new TalonFX(IntakeConstants.kIntakeMotorCanID);
-    private final DutyCycleOut m_IntakeDutyCycle = new DutyCycleOut(IntakeConstants.kIntakeDutyCycle);
+    private final TalonFX m_RollerMotor = new TalonFX(IntakeConstants.kRollerMotorCanID);
+    private final DutyCycleOut m_RollerDutyCycle = new DutyCycleOut(IntakeConstants.kRollerDutyCycle);
     private final PositionTorqueCurrentFOC m_positionTorque = new PositionTorqueCurrentFOC(0).withSlot(0);
     private final VelocityTorqueCurrentFOC m_velocityTorque = new VelocityTorqueCurrentFOC(0).withSlot(0);
 
-    public IntakeArm() {
+    public IntakeSystem() {
         // Initialize your intake arm components here
         final TalonFXConfiguration deployConfig = new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake)
                         .withInverted(InvertedValue.CounterClockwise_Positive));
+        final TalonFXConfiguration rollerConfig = new TalonFXConfiguration().withMotorOutput(new MotorOutputConfigs()
+                .withInverted(InvertedValue.CounterClockwise_Positive).withNeutralMode(NeutralModeValue.Coast));
         deployConfig.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(IntakeConstants.kDeployMaxCurrent))
                 .withPeakReverseTorqueCurrent(Amps.of(-IntakeConstants.kDeployMaxCurrent));
         final TalonFXConfiguration intakeConfig = deployConfig.clone().withMotorOutput(deployConfig.MotorOutput.clone()
@@ -39,12 +42,12 @@ public class IntakeArm extends SubsystemBase {
         deployConfig.Slot0.kI = IntakeConstants.kDeployMotorkI; // no output for integrated error
         deployConfig.Slot0.kD = IntakeConstants.kDeployMotorkD; // A velocity error of 1 rps results in 0.1 V output
         deployConfig.Feedback = new FeedbackConfigs().withSensorToMechanismRatio(IntakeConstants.kArmToDeployRotor);
-        
+
         intakeConfig.Slot0.kS = IntakeConstants.kIntakeMotorkS; // Add 0.25 V output to overcome static friction
         intakeConfig.Slot0.kP = IntakeConstants.kIntakeMotorkP; // A position error of 2.5 rotations results in 12V
         intakeConfig.Slot0.kI = IntakeConstants.kIntakeMotorkI; // no output for integrated error
         intakeConfig.Slot0.kD = IntakeConstants.kIntakeMotorkD; // A velocity error of 1 rps results in 0.1 V output
-
+        m_RollerMotor.getConfigurator().apply(rollerConfig.Slot0);
         m_IntakeMotor.getConfigurator().apply(intakeConfig.Slot0);
         m_DeployMotor.getConfigurator().apply(deployConfig.Slot0);
         m_DeployMotor.setPosition(IntakeConstants.kIntakeArmRotationOffset);
@@ -88,10 +91,12 @@ public class IntakeArm extends SubsystemBase {
         });
     }
 
-    public Command runIntakeReverse() {
-        return runOnce(() -> {
-            m_IntakeMotor.setControl(m_IntakeDutyCycle);
-        });
+    public void runRollers() {
+        m_RollerMotor.setControl(m_RollerDutyCycle);
+    }
+
+    public void stopRollers() {
+        m_RollerMotor.stopMotor();
     }
 
     public void stopIntake() {

@@ -5,17 +5,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.subsystems.IntakeArm;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Vision;
 
 public class ShootCommand extends Command {
     private final ShooterSubsystem m_shooter;
-    private final IntakeArm m_intakeArm;
+    private final IntakeSystem m_intakeArm;
     private final Vision m_vision;
     private double closestRadius;
 
-    public ShootCommand(ShooterSubsystem shooterArg, IntakeArm intakeArmArg, Vision visionArg) {
+    public ShootCommand(ShooterSubsystem shooterArg, IntakeSystem intakeArmArg, Vision visionArg) {
         m_shooter = shooterArg;
         m_intakeArm = intakeArmArg;
         m_vision = visionArg;
@@ -29,7 +29,7 @@ public class ShootCommand extends Command {
         m_shooter.runFrontMotors(ShooterSubsystem.distanceToVelocityMap.get(closestRadius).FrontMotorVelocityRPM());
         m_shooter.runRearMotor(ShooterSubsystem.distanceToVelocityMap.get(closestRadius).RearMotorVelocityRPM());
         Timer.delay(.1);
-        m_intakeArm.runIntake(-(IntakeConstants.kIntakeVelocity / 2)); // FOR NOW
+        m_intakeArm.runRollers(); // FOR NOW
         m_shooter.runLoaderMotor();
     }
 
@@ -50,7 +50,7 @@ public class ShootCommand extends Command {
     @Override
     public void end(boolean isFinished) {
         m_intakeArm.deployIntake(0);
-        m_intakeArm.stopIntake();
+        m_intakeArm.stopRollers();
         m_shooter.stopShooter();
         m_intakeArm.stopDeployMotor();
     }

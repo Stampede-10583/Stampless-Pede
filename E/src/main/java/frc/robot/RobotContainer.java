@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.IntakeArm;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Vision;
@@ -42,7 +42,7 @@ public class RobotContainer {
       new File(Filesystem.getDeployDirectory(), "swerve"));
   private final Vision m_vision = new Vision(m_swervedrive);
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
-  private final IntakeArm m_intake = new IntakeArm();
+  private final IntakeSystem m_intake = new IntakeSystem();
   CommandXboxController m_DriverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final ShootCommand c_ShootCommand = new ShootCommand(m_shooter, m_intake, m_vision);
 
