@@ -72,23 +72,24 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final int kDeployMotorCanID = 14;
-    public static final int kIntakeMotorCanID = 13;
-    public static final int kRollerMotorCanID = 20;
+    public static final int kIntakeMotor1CanID = 13;
+    public static final int kIntakeMotor2CanID = 21;
+    public static final int kHopperMotorCanID = 20;
     public static final double kArmDegreesPerRotation = 180.0; // Assuming 1 rotation equals 360 degrees, adjust if //
                                                                // necessary
     public static final double kArmToDeployRotor = 2;
     public static final double kIntakeArmRotationOffset = 95;
-    public static final double kRollerDutyCycle = .5; // Adjust as necessary
+    public static final double kHopperDutyCycle = .5; // Adjust as necessary
     //public static final double kIntakeDutyCycle = .5;
 
     public static final double kDeployMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kDeployMotorkI = 0; // no output for integrated error
     public static final double kDeployMotorkD = 0.1;
 
-    public static final double kIntakeMotorkS = 0.25; // Add 0.25 V output to overcome static friction
-    public static final double kIntakeMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
-    public static final double kIntakeMotorkI = 0; // no output for integrated error
-    public static final double kIntakeMotorkD = 0.1;
+    public static final double kIntakeMotor1kS = 0.25; // Add 0.25 V output to overcome static friction
+    public static final double kIntakeMotor1kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+    public static final double kIntakeMotor1kI = 0; // no output for integrated error
+    public static final double kIntakeMotor1kD = 0.1;
 
     public static final double kDeployMaxCurrent = 40;
     public static final double kIntakeMaxCurrent = 40;
