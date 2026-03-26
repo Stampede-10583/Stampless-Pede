@@ -160,11 +160,13 @@ public class Vision extends SubsystemBase {
                             if (target.getFiducialId() == tagID) {
                                 // Found tag, record its information
                                 // Exit once yaw has been acquired and return yaw, add camera offset to the yaw
-                                //check what camera is being used and apply an offset. 
-                                return Optional.of(camera.getName() == "Camera 1" ? (target.getYaw()- Units.radiansToDegrees(VisionConstants.kCameraOffsets[0].getRotation().getZ())) : (target.getYaw()+ Units.radiansToDegrees(VisionConstants.kCameraOffsets[0].getRotation().getZ())));
+                                // check what camera is being used and apply an offset.
+                                return Optional.of(target.getYaw() - Units.radiansToDegrees(
+                                        VisionConstants.kCameraOffsets[camera.getName() == "Camera 1" ? 0 : 1]
+                                                .getRotation().getZ()));
                             }
                         }
-                    } 
+                    }
                 }
             }
         }
@@ -250,16 +252,16 @@ public class Vision extends SubsystemBase {
     }
 
     public Command poseTest() {
-       return run(() -> {
-           Pose2d pose = getRobotPose();
-           System.out.println(pose);
-       });
+        return run(() -> {
+            Pose2d pose = getRobotPose();
+            System.out.println(pose);
+        });
     }
 
     // Update the swerve odometry with vision measurements periodically
-    //@Override
-    //public void periodic() {
-    //    
-    //}
+    // @Override
+    // public void periodic() {
+    //
+    // }
 
 }
