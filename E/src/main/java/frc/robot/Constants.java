@@ -80,7 +80,7 @@ public final class Constants {
     public static final double kArmToDeployRotor = 2;
     public static final double kIntakeArmRotationOffset = 95;
     public static final double kHopperDutyCycle = .5; // Adjust as necessary
-    //public static final double kIntakeDutyCycle = .5;
+    // public static final double kIntakeDutyCycle = .5;
 
     public static final double kDeployMotorkP = 4.8; // A position error of 2.5 rotations results in 12 V output
     public static final double kDeployMotorkI = 0; // no output for integrated error
@@ -109,7 +109,7 @@ public final class Constants {
     public static final int kShooterFrontLowerMotorCanID = 12;
     public static final int kShooterFrontUpperMotorCanID = 11;
     public static final double kP = 1;
-    public static final double kLoaderDutyCycle =1; // Adjust as necessary
+    public static final double kLoaderDutyCycle = 1; // Adjust as necessary
     public static final double kFrontMotorsDutyCycle = 1; // Adjust as necessary
     public static final double kRearMotorDutyCycle = .6; // Adjust as necessary
 
@@ -129,21 +129,26 @@ public final class Constants {
     public static final double kRearMotorVelocity = 5000;
     public static final double kMaxVoltage = 12.5; // maximum applied current (amperes)
     public static final double kFrontRotorToRoller = 2;
-    public static final double kRearRotorToRoller = 44/16;
+    public static final double kRearRotorToRoller = 44 / 16;
   }
 
   public static class VisionConstants {
 
     public static final String[] kCameraNames = { "Camera 1", "Camera 2" };
-    public static final Transform3d[] kCameraOffsets = { new Transform3d(), new Transform3d() };
+    public static final Transform3d[] kCameraOffsets = {
+        new Transform3d(Units.inchesToMeters(-10.7755), Units.inchesToMeters(6.2376), Units.inchesToMeters(20.5609),
+            new Rotation3d(0, Units.degreesToRadians(26.0313), Units.degreesToRadians(25))),
+        new Transform3d(Units.inchesToMeters(-10.7768), Units.inchesToMeters(-6.2376), Units.inchesToMeters(20.5609),
+            new Rotation3d(0, Units.degreesToRadians(26.0313), Units.degreesToRadians(-25))) };
 
     // Offset from the center of the camera to the robot center
-    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0.3937, -0.4699),
-        new Rotation3d(Units.degreesToRadians(86), 0, 0));
+
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
     public static final int[] ktargetTagIDs = blueAlliance ? new int[] { 25, 26 } : new int[] { 9, 10 };
-    public static final Translation2d kMiddleHubTagOffset = blueAlliance ? new Translation2d(Units.inchesToMeters(23.5), 0) : new Translation2d(Units.inchesToMeters(-23.5), 0);
+    public static final Translation2d kMiddleHubTagOffset = blueAlliance
+        ? new Translation2d(Units.inchesToMeters(23.5), 0)
+        : new Translation2d(Units.inchesToMeters(-23.5), 0);
   }
 
   public static class GameConstants {
