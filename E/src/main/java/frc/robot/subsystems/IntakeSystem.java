@@ -92,11 +92,11 @@ public class IntakeSystem extends SubsystemBase {
         });
     }
 
-    public void runhoppers() {
+    public void runhopper() {
         m_hopperMotor.setControl(m_hopperDutyCycle);
     }
 
-    public void stophoppers() {
+    public void stophopper() {
         m_hopperMotor.stopMotor();
     }
 
