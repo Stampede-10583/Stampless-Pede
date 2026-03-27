@@ -22,7 +22,7 @@ public class IntakeSystem extends SubsystemBase {
         // Initialize your intake arm components here
         final TalonFXConfiguration deployConfig = new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake)
-                        .withInverted(InvertedValue.CounterClockwise_Positive));
+                        .withInverted(InvertedValue.Clockwise_Positive));
         final TalonFXConfiguration hopperConfig = new TalonFXConfiguration().withMotorOutput(new MotorOutputConfigs()
                 .withInverted(InvertedValue.CounterClockwise_Positive).withNeutralMode(NeutralModeValue.Coast));
         final TalonFXConfiguration intakeConfig = deployConfig.clone().withMotorOutput(deployConfig.MotorOutput.clone()

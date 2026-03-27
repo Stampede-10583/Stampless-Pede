@@ -79,10 +79,10 @@ public final class Constants {
     public static final double kArmToDeployRotor = 2;
     public static final double kIntakeArmRotationOffset = 95;
     public static final double kHopperDutyCycle = .6; // Adjust as necessary
-    public static final double kIntakeDutyCycle = 1;
+    public static final double kIntakeDutyCycle = .9;
 
-    public static final double kDeployDutyCycle = .6;
-    public static final double kRetractDutyCycle = -.7;
+    public static final double kRetractDutyCycle = .7;
+    public static final double kDeployDutyCycle = -1;
   }
 
   public static record MotorOutputVelocities(double FrontMotorVelocity, double RearMotorVelocity) {
