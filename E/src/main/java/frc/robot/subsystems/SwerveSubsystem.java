@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
@@ -89,16 +90,31 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void activatePathPlanner() {
-   
-   try {
+
+    try {
       pathPlanneRobotConfig = RobotConfig.fromGUISettings();
       final boolean feedForwardEnabled = true;
-      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getRobotVelocity, (robotRelativeSpeeds, Feedforwards) ->{if (feedForwardEnabled) {swerveDrive.drive(robotRelativeSpeeds, getKinematics().toSwerveModuleStates(robotRelativeSpeeds), Feedforwards.linearForces())} else { swerveDrive.setChassisSpeeds(robotRelativeSpeeds);}}, new PPHolonomicDriveController(new PIDConstants(5.00, 0,0), new PIDConstants(5.00, 0,0)), pathPlanneRobotConfig, () ->{var alliance = DriverStation.getAlliance(); if (alliance.isPresent()) {return alliance.get() == DriverStation.Alliance.Red; } else {return false;}}, this);
-      
-   } catch (Exception e) {
-    e.printStackTrace();
-   }
-   PathfindingCommand.warmupCommand().schedule();
+      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getRobotVelocity,
+          (robotRelativeSpeeds, Feedforwards) -> {
+            if (feedForwardEnabled) {
+              swerveDrive.drive(robotRelativeSpeeds, getKinematics().toSwerveModuleStates(robotRelativeSpeeds),
+                  Feedforwards.linearForces());
+            } else {
+              swerveDrive.setChassisSpeeds(robotRelativeSpeeds);
+            }
+          }, new PPHolonomicDriveController(new PIDConstants(5.00, 0, 0), new PIDConstants(5.00, 0, 0)),
+          pathPlanneRobotConfig, () -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Red;
+            } else {
+              return false;
+            }
+          }, this);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
   }
 
   /**
