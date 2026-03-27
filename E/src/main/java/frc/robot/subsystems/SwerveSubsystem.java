@@ -26,7 +26,12 @@ import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.swerve.utility.WheelForceCalculator.Feedforwards;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
@@ -42,6 +47,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * Swerve drive object.
    */
   public final SwerveDrive swerveDrive;
+  public static RobotConfig pathPlanneRobotConfig;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -79,11 +85,22 @@ public class SwerveSubsystem extends SubsystemBase {
         1); // Enable if you want to resynchronize your absolute encoders and motor encoders
             // periodically when they are not moving.
     swerveDrive.useExternalFeedbackSensor(); // EXPERIMENT TO TRY AND GET RID OF DEPRECATED API
-      
+
   }
+
   public void activatePathPlanner() {
    
+   try {
+      pathPlanneRobotConfig = RobotConfig.fromGUISettings();
+      final boolean feedForwardEnabled = true;
+      AutoBuilder.configure(this::getPose, this::resetOdometry, this::getRobotVelocity, (robotRelativeSpeeds, Feedforwards) ->{if (feedForwardEnabled) {swerveDrive.drive(robotRelativeSpeeds, getKinematics().toSwerveModuleStates(robotRelativeSpeeds), Feedforwards.linearForces())} else { swerveDrive.setChassisSpeeds(robotRelativeSpeeds);}}, new PPHolonomicDriveController(new PIDConstants(5.00, 0,0), new PIDConstants(5.00, 0,0)), pathPlanneRobotConfig, () ->{var alliance = DriverStation.getAlliance(); if (alliance.isPresent()) {return alliance.get() == DriverStation.Alliance.Red; } else {return false;}}, this);
+      
+   } catch (Exception e) {
+    e.printStackTrace();
+   }
+   PathfindingCommand.warmupCommand().schedule();
   }
+
   /**
    * Construct the swerve drive.
    *
@@ -93,6 +110,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
+  }
+
+  public SwerveDriveKinematics gKinematics() {
+    return swerveDrive.kinematics;
   }
 
   /**

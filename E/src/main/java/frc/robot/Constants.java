@@ -150,7 +150,6 @@ public final class Constants {
   }
 
   public static class AutoConstants {
-    public static final RobotConfig kPathPlannerConfig = RobotConfig.fromGUISettings();
   }
 
   public static class MusicConstants {
