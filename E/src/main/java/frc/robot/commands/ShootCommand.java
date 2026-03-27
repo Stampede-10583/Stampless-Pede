@@ -33,15 +33,15 @@ public class ShootCommand extends Command {
     @Override
     public void execute() {
         Timer.delay(1);
-        m_intakeArm.deployIntake(IntakeConstants.kRetractDutyCycle);
-        Timer.delay(.3);
-        m_intakeArm.deployIntake(IntakeConstants.kDeployDutyCycle);
-        Timer.delay(.3);
-        m_intakeArm.deployIntake(IntakeConstants.kRetractDutyCycle);
-        Timer.delay(.3);
-        m_intakeArm.deployIntake(IntakeConstants.kDeployDutyCycle);
-        Timer.delay(.3);
-        m_intakeArm.stopDeployMotor();
+        // m_intakeArm.deployIntake(IntakeConstants.kRetractDutyCycle);
+        // Timer.delay(.3);
+        // m_intakeArm.deployIntake(IntakeConstants.kDeployDutyCycle);
+        // Timer.delay(.3);
+        // m_intakeArm.deployIntake(IntakeConstants.kRetractDutyCycle);
+        // Timer.delay(.3);
+        // m_intakeArm.deployIntake(IntakeConstants.kDeployDutyCycle);
+        // Timer.delay(.3);
+        // m_intakeArm.stopDeployMotor();
     }
 
     @Override

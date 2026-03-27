@@ -51,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final HashMap<Double, MotorOutputVelocities> distanceToVelocityMap = new HashMap<>();
 
     public ShooterSubsystem() {
-        distanceToVelocityMap.put(0.0, new MotorOutputVelocities(6000.0 / 60, 2900.0 / 60, 0)); // THESE
+        distanceToVelocityMap.put(0.0, new MotorOutputVelocities(6000.0, 2900.0, 0)); // THESE
                                                                                                                       // NEED
         // ADJUSTMENT
         // distanceToVelocityMap.put(OperatorConstants.kRadii[1], new MotorOutputVelocities(200.0 / 60, 200.0 / 60, 2));// THESE
@@ -111,7 +111,7 @@ public class ShooterSubsystem extends SubsystemBase {
         return runOnce(() -> {
             runRearMotor(back);
             runFrontMotors(front);
-            Timer.delay(.1);
+            Timer.delay(.5);
             runLoaderMotor();
         });
     }
