@@ -32,17 +32,10 @@ import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
-import swervelib.encoders.CANCoderSwerve;
 import swervelib.math.SwerveMath;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
@@ -94,7 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
             // periodically when they are not moving.
     swerveDrive.useExternalFeedbackSensor(); // EXPERIMENT TO TRY AND GET RID OF
     // DEPRECATED API
-    activatePathPlanner();
+    // activatePathPlanner();
   }
 
   public void activatePathPlanner() {

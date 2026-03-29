@@ -2,10 +2,8 @@ package frc.robot.commands;
 
 import java.util.Map;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
-import  frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Vision;
@@ -46,7 +44,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean isFinished) {
-        //m_intakeArm.stopDeployMotor();
+        // m_intakeArm.stopDeployMotor();
         m_intakeArm.stopHopper();
         m_shooter.stopShooter();
     }

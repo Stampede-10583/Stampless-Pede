@@ -12,7 +12,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeSystem extends SubsystemBase {
@@ -20,7 +19,6 @@ public class IntakeSystem extends SubsystemBase {
     public final TalonFX m_IntakeMotor1 = new TalonFX(IntakeConstants.kIntakeMotor1CanID);
     public final TalonFX m_hopperMotor = new TalonFX(IntakeConstants.kHopperMotorCanID);
     private final DutyCycleOut m_hopperDutyCycle = new DutyCycleOut(IntakeConstants.kHopperDutyCycle);
-    private final BangBangController bangBangController = new BangBangController();
 
     public IntakeSystem() {
         // Initialize your intake arm components here
@@ -38,31 +36,31 @@ public class IntakeSystem extends SubsystemBase {
     }
 
     // public void deployIntake(double dutycycle) {
-    //     m_DeployMotor.setControl(new DutyCycleOut(dutycycle));
+    // m_DeployMotor.setControl(new DutyCycleOut(dutycycle));
     // }
 
     // public Command deployIntakeCommand() {
-    //     return new FunctionalCommand(() -> {
-    //         deployIntake(IntakeConstants.kDeployDutyCycle);
-    //     }, () -> {
-    //     }, (interrupted) -> {
-    //         stopDeployMotor();
-    //     }, () -> {
-    //         return false;
-    //     }, this);
+    // return new FunctionalCommand(() -> {
+    // deployIntake(IntakeConstants.kDeployDutyCycle);
+    // }, () -> {
+    // }, (interrupted) -> {
+    // stopDeployMotor();
+    // }, () -> {
+    // return false;
+    // }, this);
     // }
 
     // public Command retractIntakeCommand() {
-    //     return new FunctionalCommand(() -> {
-    //         deployIntake(IntakeConstants.kRetractDutyCycle);
-    //     }, () -> {
-    //     }, (interrupted) -> {
-    //         stopDeployMotor();
-    //     }, () -> false == true, this);
+    // return new FunctionalCommand(() -> {
+    // deployIntake(IntakeConstants.kRetractDutyCycle);
+    // }, () -> {
+    // }, (interrupted) -> {
+    // stopDeployMotor();
+    // }, () -> false == true, this);
     // }
 
     // public void stopDeployMotor() {
-    //     m_DeployMotor.stopMotor();
+    // m_DeployMotor.stopMotor();
     // }
 
     // public Command stopDeployMotorCommand() {
@@ -73,7 +71,8 @@ public class IntakeSystem extends SubsystemBase {
 
     public void runIntake(double velocity) {
         m_IntakeMotor1.setControl(new DutyCycleOut(velocity));
-        //m_IntakeMotor1.set(-bangBangController.calculate(m_IntakeMotor1.getVelocity().getValueAsDouble()*60, velocity));
+        // m_IntakeMotor1.set(-bangBangController.calculate(m_IntakeMotor1.getVelocity().getValueAsDouble()*60,
+        // velocity));
     }
 
     public Command runIntakeCommand() {

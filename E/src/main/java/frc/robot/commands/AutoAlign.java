@@ -89,8 +89,8 @@ public class AutoAlign extends Command {
             }
         }
         m_swerve.driveFieldOriented(
-                m_swerve.getTargetSpeeds(m_controller.getLeftY()  * OperatorConstants.kAutoAimScale,
-                        m_controller.getLeftX()  * OperatorConstants.kAutoAimScale,
+                m_swerve.getTargetSpeeds(m_controller.getLeftY() * OperatorConstants.kAutoAimScale,
+                        m_controller.getLeftX() * OperatorConstants.kAutoAimScale,
                         targetRot));
 
         // // COMMENT THIS IMPLEMENTATION OF AIMLOCK OUT IF USING THE BACKUP
@@ -101,7 +101,7 @@ public class AutoAlign extends Command {
         // // targetYaw is within 1 degree, we won't rotate
         // if (!(-1 < (targetYaw - m_vision.getRobotPose().getRotation().getDegrees())
         // && -1 < (targetYaw - m_vision.getRobotPose().getRotation().getDegrees()))) {
-        //  targetRot = Rotation2d.fromDegrees(targetYaw);
+        // targetRot = Rotation2d.fromDegrees(targetYaw);
         // }
 
         // m_swerve.driveFieldOriented(m_swerve.getTargetSpeeds(m_controller.getLeftY()*-1*OperatorConstants.kAutoAimScale,
