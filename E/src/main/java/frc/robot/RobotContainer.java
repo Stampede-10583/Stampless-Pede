@@ -72,7 +72,7 @@ public class RobotContainer {
                         .withControllerRotationAxis(m_DriverController::getRightX)
                         .deadband(OperatorConstants.kDeadband)
                         .scaleTranslation(OperatorConstants.kScale)
-                        .allianceRelativeControl(true);
+                        .allianceRelativeControl(false);
 
         /**
          * Use this method to define bindings between conditions and commands. These are
